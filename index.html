@@ -152,6 +152,8 @@ dl.kv dt{color:var(--muted)} dl.kv dd{margin:0;font-weight:500;min-width:0;overf
 .giftcard{border:2px solid var(--amber);background:var(--amber-bg);border-radius:18px;padding:26px 22px;text-align:center}
 .giftcard h3{font-size:34px;color:var(--brick);margin-bottom:10px}
 .giftcard p{max-width:56ch;margin:0 auto 12px}
+.giftcard.locked{border-style:dashed;background:var(--surface)}
+.giftcard .lock{width:84px;height:84px;margin:0 auto 14px;border-radius:50%;display:grid;place-items:center;background:var(--amber-bg);color:var(--amber)}
 .giftcard .resto{margin:20px auto 6px;max-width:520px;background:var(--surface);border-radius:14px;padding:18px;text-align:left;border:1px solid var(--line)}
 .giftcard .resto h4{font-size:26px;text-align:center;margin-bottom:4px}
 .flagrow{display:flex;justify-content:center;gap:8px;margin-bottom:12px}
@@ -199,13 +201,12 @@ const TRIP = { start:"2026-11-29", end:"2026-12-03" };
 
 const WIZZ_BAG = "En lille taske under sædet (40 × 30 × 20 cm) er med i prisen. Kabinekuffert og indchecket kuffert koster ekstra og skal være købt på bookingen.";
 const FLIGHTS = [
-  { dir:"Ud",   date:"2026-11-29", flight:"W6 1778", airline:"Wizz Air", from:"Billund (BLL)", dep:"", to:"Gdańsk (GDN)", arr:"",
-    expect:"Søndagsflyet afgår i vinterplanen ca. kl. 17.35 og lander ca. kl. 18.50. Tjek tiden på bookingen.",
-    luggage:WIZZ_BAG, note:"Flyvetid ca. 1 time og 15 minutter. Ruten flyver tirsdag, onsdag, torsdag, lørdag og søndag." },
-  { dir:"Hjem", date:"2026-12-03", flight:"W6 1777", airline:"Wizz Air", from:"Gdańsk (GDN)", dep:"", to:"Billund (BLL)", arr:"",
-    expect:"Torsdagsflyet har det seneste år afgået om formiddagen, ca. kl. 10–11. Den præcise tid står på bookingen.",
-    luggage:WIZZ_BAG, note:"Flyvetid ca. 1 time og 25 minutter." }
+  { dir:"Ud",   date:"2026-11-29", flight:"W6 1778", airline:"Wizz Air", from:"Billund (BLL)", dep:"17.35", to:"Gdańsk (GDN)", arr:"18.50",
+    luggage:WIZZ_BAG, note:"Flyvetid ca. 1 time og 15 minutter. Om vinteren flyver ruten kun søndag og torsdag, én gang hver vej." },
+  { dir:"Hjem", date:"2026-12-03", flight:"W6 1777", airline:"Wizz Air", from:"Gdańsk (GDN)", dep:"11.15", to:"Billund (BLL)", arr:"12.40",
+    luggage:WIZZ_BAG, note:"Flyvetid ca. 1 time og 25 minutter. Vær i lufthavnen senest kl. 9.15. Taxaen fra hotellet tager ca. 25 minutter, så tag af sted omkring kl. 8.30." }
 ];
+const FLIGHT_SRC = "https://www.flight.info/W61778";
 const BOOKING_REF = "";
 const TRAVEL_TIPS = [
   ["Check ind online","Wizz Air tager gebyr for at checke ind i lufthavnen. Check ind gratis i Wizz Air-appen eller på wizzair.com inden afrejse, og hav boardingkortet på telefonen eller printet."],
@@ -225,7 +226,9 @@ const HOTEL = {
 // Fødselsdagsgaven. Udfyld når restauranten er fundet.
 const GIFT = {
   from:"Mathias",
-  greeting:"Kære mor og far. I har begge haft fødselsdag i år, og I skal fejre det i en af Østersøens smukkeste og mest historiske byer. Gaven er en middag ude, mens I er der. Vi glæder os til at høre om det hele, når I kommer hjem.",
+  to:"Eva",
+  openFrom:"2026-10-25",   // gaven kan først åbnes denne dag
+  greeting:"Kære mor. Din gave er en middag ude, mens du og far er i Gdańsk, i en af Østersøens smukkeste og mest historiske byer. Vi glæder os til at høre om det hele, når I kommer hjem.",
   restaurant:"",   // navn
   date:"", time:"", address:"", link:"", lat:null, lon:null,
   text:""          // fx hvad der er bestilt, eller hvorfor netop dette sted
@@ -521,6 +524,7 @@ const ICON = {
   praktisk:'<circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16v.5"/>',
   julemarked:'<path d="M12 2l5 8h-3l4 6h-4l3 5H7l3-5H6l4-6H7z"/>',
   rav:'<path d="M12 3c4 3 7 6 7 10a7 7 0 0 1-14 0c0-4 3-7 7-10z"/><path d="M10 12l2 2 3-3"/>',
+  lock:'<rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/>',
   gave:'<rect x="3" y="9" width="18" height="12" rx="1.5"/><path d="M3 13h18M12 9v12"/><path d="M12 9c-2-4-6-4-6-1.5S10 9 12 9zM12 9c2-4 6-4 6-1.5S14 9 12 9z"/>'
 };
 const svg = (k,s=20) => `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICON[k]}</svg>`;
@@ -531,12 +535,17 @@ const PL_FLAG = '<svg viewBox="0 0 8 5" width="44" height="28" aria-hidden="true
    Sektioner
    ========================================================= */
 const giftOpened = () => store.get("gdk-gave-aabnet", false);
+const giftLocked = () => { const d = parseDate(GIFT.openFrom); return !!d && new Date() < new Date(d.getFullYear(), d.getMonth(), d.getDate()); };
 
 const SECTIONS = [
-  {id:"gave", title:"Fødselsdagsgave", teaser:()=>giftOpened() ? (GIFT.restaurant ? esc(GIFT.restaurant) : "En middag i Gdańsk") : "Tryk for at åbne",
-   lead:"Til Ove og Eva, der begge har haft fødselsdag i år.",
+  {id:"gave", title:"Fødselsdagsgave", teaser:()=>giftLocked() ? "Tryk her" : giftOpened() ? (GIFT.restaurant ? esc(GIFT.restaurant) : "En middag i Gdańsk") : "Tryk for at åbne",
+   lead:"",
    render(){
      const g = GIFT;
+     if(giftLocked()){ const d = parseDate(g.openFrom);
+       return `<div class="giftcard locked"><div class="lock">${svg("lock",44)}</div>
+         <h3>Kan først åbnes den ${d.getDate()}. ${MONTHS[d.getMonth()]}</h3>
+         <p>Kom tilbage på dagen.</p></div>`; }
      const resto = g.restaurant ? `<div class="resto">
          <h4>${esc(g.restaurant)}</h4>
          <dl class="kv"><dt>Dato</dt><dd>${g.date?esc(fmtDate(g.date)):TODO}</dd><dt>Tidspunkt</dt><dd>${v(g.time)}</dd><dt>Adresse</dt><dd>${v(g.address)}</dd></dl>
@@ -546,7 +555,7 @@ const SECTIONS = [
        : `<div class="resto"><h4>Restauranten afsløres snart</h4><p style="margin:6px 0 0;text-align:center">Den bliver valgt og bestilt, og så kommer navn, dato og adresse her.</p></div>`;
      return `<div class="giftcard">
        <div class="flagrow">${DK_FLAG}${DK_FLAG}${DK_FLAG}</div>
-       <h3>Tillykke med fødselsdagene!</h3>
+       <h3>Tillykke med fødselsdagen, ${esc(g.to)}!</h3>
        <p>${esc(g.greeting)}</p>
        ${resto}
        <p style="margin-top:16px">Kærlig hilsen ${esc(g.from)}</p>
@@ -569,6 +578,7 @@ const SECTIONS = [
      const h = HOTEL;
      return `<h3 class="sub" style="margin-top:8px">Fly</h3>
        <div class="stack">${f}</div>
+       <p class="note">Tiderne er fra Wizz Airs vinterplan (<a href="${FLIGHT_SRC}" target="_blank" rel="noopener">flight.info</a>, tjekket ${UPDATED}). Wizz Air kan flytte tider, så se efter en mail fra dem før afrejse.</p>
        ${BOOKING_REF?`<div class="card"><dl class="kv" style="margin:0"><dt>Bookingnummer</dt><dd>${esc(BOOKING_REF)}</dd></dl></div>`:""}
        <h3 class="sub">Godt at vide om turen</h3>
        <div class="boxes" style="margin-bottom:8px">${TRAVEL_TIPS.map(([t,x])=>`<div class="card item"><h4>${esc(t)}</h4><p>${esc(x)}</p></div>`).join("")}</div>
@@ -733,7 +743,7 @@ function home(){
   </div>
   <div class="grid">
     <button class="tile gift" data-go="gave"><span class="ic">${svg("gave",34)}</span>
-      <div><h3>${g.title}</h3><p>${g.teaser()}</p></div><span class="go">${giftOpened()?"Se gaven →":"Åbn gaven →"}</span></button>
+      <div><h3>${g.title}</h3><p>${g.teaser()}</p></div><span class="go">${giftLocked()?"Åbn →":giftOpened()?"Se gaven →":"Åbn gaven →"}</span></button>
     ${SECTIONS.slice(1).map(s=>`<button class="tile" data-go="${s.id}">
     <span class="ic">${svg(s.id)}</span><h3>${s.title}</h3><p>${s.teaser()}</p><span class="go">Åbn →</span>
   </button>`).join("")}</div>`;
@@ -745,7 +755,7 @@ function section(id){
   return `
   <div class="crumbs"><button class="btn" data-go="">← Forside</button></div>
   <div class="sec-title"><span class="ic" style="color:var(--brick)">${svg(s.id,28)}</span><h2>${s.title}</h2></div>
-  <p class="lead">${s.lead}</p>
+  ${s.lead?`<p class="lead">${s.lead}</p>`:""}
   ${s.render()}
   <div class="pager">
     ${prev?`<button class="btn" data-go="${prev.id}">← ${prev.title}</button>`:"<span></span>"}
@@ -766,7 +776,7 @@ function go(id, anchor){
   render();
   if(anchor){ const el = document.getElementById(anchor); if(el){ el.scrollIntoView({block:"start"}); return; } }
   window.scrollTo(0,0);
-  if(id==="gave" && !giftOpened()){ store.set("gdk-gave-aabnet", true); party(); }
+  if(id==="gave" && !giftLocked() && !giftOpened()){ store.set("gdk-gave-aabnet", true); party(); }
 }
 
 /* Fyrværkeri og flag */
@@ -774,7 +784,7 @@ function party(){
   if(document.getElementById("party")) return;
   const reduce = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
   const o = document.createElement("div"); o.id = "party"; o.setAttribute("role","dialog"); o.setAttribute("aria-label","Tillykke");
-  o.innerHTML = `<canvas></canvas><div class="msg"><div class="flagrow">${DK_FLAG}${PL_FLAG}${DK_FLAG}</div><h2>Tillykke, Ove og Eva!</h2><p>Her er jeres fødselsdagsgave</p><button class="btn" id="party-close">Se gaven</button></div>`;
+  o.innerHTML = `<canvas></canvas><div class="msg"><div class="flagrow">${DK_FLAG}${DK_FLAG}${DK_FLAG}</div><h2>Tillykke, ${esc(GIFT.to)}!</h2><p>Her er din fødselsdagsgave</p><button class="btn" id="party-close">Se gaven</button></div>`;
   document.body.appendChild(o);
   const close = () => { o.remove(); stop = true; };
   o.addEventListener("click", close);
@@ -784,7 +794,7 @@ function party(){
   if(reduce) return;
   for(let i=0;i<34;i++){
     const f = document.createElement("div"); f.className = "flag";
-    f.innerHTML = i%4===3 ? PL_FLAG : DK_FLAG;
+    f.innerHTML = DK_FLAG;
     f.style.left = (Math.random()*100)+"vw";
     f.style.animationDuration = (4+Math.random()*4)+"s";
     f.style.animationDelay = (Math.random()*3)+"s";
@@ -841,7 +851,7 @@ window.addEventListener("hashchange",()=>{ const h = location.hash.slice(1); if(
 const startHash = location.hash.slice(1);
 ROUTE = SECTIONS.some(s=>s.id===startHash) ? startHash : "";
 render();
-if(ROUTE==="gave" && !giftOpened()){ store.set("gdk-gave-aabnet", true); party(); }
+if(ROUTE==="gave" && !giftLocked() && !giftOpened()){ store.set("gdk-gave-aabnet", true); party(); }
 </script>
 </body>
 </html>
