@@ -1,0 +1,688 @@
+<!doctype html>
+<html lang="da">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Gdańsk 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Alegreya:wght@500;700;800&family=Alegreya+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+/* Layout: hanseatisk byside – mursten, rav og Østersø. Forside med fliser, én sektion ad gangen. */
+:root{
+  color-scheme:light;
+  --bg:#f1f2ef; --surface:#ffffff; --surface-2:#e7e8e3; --ink:#1e2a30; --muted:#59646a; --line:#d9dbd4;
+  --brick:#9b2d20; --brick-ink:#ffffff; --amber:#b9770e; --amber-bg:#f8ecd3; --baltic:#1f4a5c;
+  --ok:#2f7a4d; --ok-bg:#e1f1e6; --warn:#8a6100; --warn-bg:#f8eccd; --bad:#a3392a; --bad-bg:#f7e0db;
+  --water:#d6e4ea; --landfill:#eceee8; --street:#c9b28a;
+  --shadow:0 1px 2px rgba(30,42,48,.06),0 6px 20px rgba(30,42,48,.06);
+  --f-display:Alegreya,Georgia,"Times New Roman",serif;
+  --f-body:"Alegreya Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#141a1d; --surface:#1b2327; --surface-2:#232d32; --ink:#eceae5; --muted:#a2acb0; --line:#2f3b41;
+    --brick:#e0705c; --brick-ink:#1a0d0a; --amber:#e8b04f; --amber-bg:#3a2c12; --baltic:#7fb8cf;
+    --ok:#7dd3a0; --ok-bg:#173327; --warn:#f0c35a; --warn-bg:#3a2f12; --bad:#f19a8a; --bad-bg:#3d1f1a;
+    --water:#15262e; --landfill:#222c31; --street:#6b5a3c; --shadow:none; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#141a1d; --surface:#1b2327; --surface-2:#232d32; --ink:#eceae5; --muted:#a2acb0; --line:#2f3b41;
+  --brick:#e0705c; --brick-ink:#1a0d0a; --amber:#e8b04f; --amber-bg:#3a2c12; --baltic:#7fb8cf;
+  --ok:#7dd3a0; --ok-bg:#173327; --warn:#f0c35a; --warn-bg:#3a2f12; --bad:#f19a8a; --bad-bg:#3d1f1a;
+  --water:#15262e; --landfill:#222c31; --street:#6b5a3c; --shadow:none; color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font:17px/1.6 var(--f-body);-webkit-font-smoothing:antialiased}
+a{color:var(--baltic)}
+h1,h2,h3,h4{font-family:var(--f-display);line-height:1.15;margin:0;text-wrap:balance}
+.wrap{max-width:1000px;margin:0 auto;padding-inline:16px}
+header.top{background:var(--brick);color:var(--brick-ink);position:relative;overflow:hidden}
+header.top .wrap{position:relative;z-index:1;padding-block:22px 64px}
+.brand{display:inline-flex;flex-direction:column;text-decoration:none;color:inherit}
+.brand h1{font-size:34px;font-weight:800;letter-spacing:.01em}
+.brand small{opacity:.9;font-size:15px}
+.skyline{position:absolute;left:0;right:0;bottom:-1px;height:70px;width:100%;color:var(--bg)}
+.hero{display:flex;flex-wrap:wrap;gap:12px;margin:22px 0 8px}
+.stat{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 16px;flex:1 1 150px;box-shadow:var(--shadow)}
+.stat b{display:block;font-family:var(--f-display);font-size:28px;font-variant-numeric:tabular-nums}
+.stat span{color:var(--muted);font-size:14px}
+.greet{margin:18px 0 0;padding:18px 20px;border-radius:14px;background:var(--surface);border:1px solid var(--line)}
+.greet h2{font-size:24px;margin-bottom:6px}
+.greet p{margin:0;max-width:68ch}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px;margin:18px 0 40px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px;box-shadow:var(--shadow);min-width:0}
+button.tile{all:unset;box-sizing:border-box;cursor:pointer;display:flex;flex-direction:column;gap:8px;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px;box-shadow:var(--shadow);transition:transform .12s,border-color .12s}
+button.tile:hover,button.tile:focus-visible{transform:translateY(-2px);border-color:var(--brick)}
+button.tile:focus-visible{outline:3px solid var(--amber);outline-offset:2px}
+.tile .ic{width:40px;height:40px;border-radius:10px;background:var(--surface-2);display:grid;place-items:center;color:var(--brick)}
+.tile h3{font-size:23px}
+.tile p{margin:0;color:var(--muted);font-size:15px}
+.tile .go{margin-top:auto;font-weight:700;color:var(--brick);font-size:15px}
+button.tile.gift{grid-column:1/-1;flex-direction:row;align-items:center;gap:18px;background:var(--amber-bg);border-color:var(--amber)}
+.tile.gift .ic{width:64px;height:64px;border-radius:14px;background:var(--amber);color:var(--surface);flex:none}
+.tile.gift h3{font-size:28px}
+.tile.gift .go{margin:0 0 0 auto;white-space:nowrap}
+@media (max-width:560px){button.tile.gift{flex-wrap:wrap}.tile.gift .go{margin:0}}
+.crumbs{display:flex;justify-content:space-between;align-items:center;gap:10px;margin:22px 0 6px;flex-wrap:wrap}
+.btn{font:inherit;font-weight:700;font-size:15px;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:10px;padding:9px 15px;cursor:pointer}
+.btn:hover{border-color:var(--brick)}
+.btn:focus-visible{outline:3px solid var(--amber);outline-offset:2px}
+.btn.primary{background:var(--brick);color:var(--brick-ink);border-color:var(--brick)}
+.sec-title{display:flex;align-items:center;gap:12px;margin:8px 0 6px}
+.sec-title h2{font-size:36px}
+.lead{color:var(--muted);margin:0 0 18px;max-width:66ch;font-size:18px}
+.stack{display:flex;flex-direction:column;gap:14px;margin-bottom:24px}
+h3.sub{font-size:24px;margin:30px 0 12px}
+.badge{display:inline-block;font-size:13px;font-weight:700;padding:2px 10px;border-radius:999px;white-space:nowrap}
+.b-ok{background:var(--ok-bg);color:var(--ok)} .b-warn{background:var(--warn-bg);color:var(--warn)} .b-bad{background:var(--bad-bg);color:var(--bad)} .b-n{background:var(--surface-2);color:var(--muted)}
+.row{display:flex;justify-content:space-between;gap:10px;align-items:flex-start;flex-wrap:wrap}
+.item h4{margin:0;font-size:21px}
+.item p{margin:8px 0 0;max-width:72ch}
+.meta{display:flex;flex-wrap:wrap;gap:6px 16px;margin-top:10px;font-size:15px;color:var(--muted)}
+.meta b{color:var(--ink)}
+.rec{border-color:var(--amber)}
+.tag-rec{color:var(--amber);font-weight:700;font-size:13px;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 16px}
+.chip{font:inherit;font-size:15px;font-weight:500;padding:6px 13px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer;text-decoration:none}
+.chip.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.note{font-size:15px;color:var(--muted);background:var(--surface-2);border-radius:10px;padding:11px 14px;margin:0 0 16px}
+details{margin-top:10px}summary{cursor:pointer;color:var(--baltic);font-weight:700;font-size:15px}details p{margin:8px 0 0}
+.todo{color:var(--warn);background:var(--warn-bg);border-radius:6px;padding:0 6px;font-weight:500}
+dl.kv{display:grid;grid-template-columns:max-content 1fr;gap:6px 16px;margin:12px 0 0}
+dl.kv dt{color:var(--muted)} dl.kv dd{margin:0;font-weight:500;min-width:0;overflow-wrap:anywhere}
+@media (max-width:480px){dl.kv{grid-template-columns:1fr;gap:0}dl.kv dd{margin-bottom:8px}}
+/* historie */
+.timeline{display:flex;flex-direction:column;gap:0;margin:8px 0 24px;border-left:3px solid var(--line);padding-left:22px}
+.chap{position:relative;padding:4px 0 26px;scroll-margin-top:16px}
+.chap::before{content:"";position:absolute;left:-31px;top:10px;width:15px;height:15px;border-radius:50%;background:var(--brick);border:3px solid var(--bg)}
+.chap .yr{font-family:var(--f-display);font-weight:800;color:var(--brick);font-size:18px;letter-spacing:.02em;font-variant-numeric:tabular-nums}
+.chap h3{font-size:27px;margin:2px 0 8px}
+.chap p{margin:0 0 10px;max-width:68ch}
+.chap .see{font-size:15px;color:var(--muted)}
+.chap .see button{font:inherit;color:var(--baltic);background:none;border:0;padding:0;cursor:pointer;text-decoration:underline;font-weight:700}
+.boxes{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;margin-bottom:28px}
+.boxes ul{margin:8px 0 0;padding-left:18px}.boxes li{margin-bottom:8px}
+/* kort */
+.mapwrap{background:var(--water);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.mapwrap svg{display:block;width:100%;height:auto;margin:0 auto}
+.land{fill:var(--landfill)}
+.river{fill:none;stroke:var(--water);stroke-width:26;stroke-linecap:round;stroke-linejoin:round}
+.street{fill:none;stroke:var(--street);stroke-width:7;stroke-linecap:round;stroke-dasharray:1 12}
+.lbl{fill:var(--muted);font:italic 500 17px var(--f-display)}
+.lbl.river-l{fill:var(--baltic)}
+.ref circle{fill:var(--muted)}
+.pin{cursor:pointer}
+.pin circle{stroke:var(--surface);stroke-width:3.5;fill:var(--brick)}
+.pin text{fill:var(--brick-ink);font:700 16px var(--f-body);text-anchor:middle;dominant-baseline:central;pointer-events:none}
+.pin.hotel circle{fill:var(--baltic)} .pin.hotel text{fill:var(--surface)}
+.pin.sel circle{stroke:var(--amber);stroke-width:6}
+.pin:focus{outline:none} .pin:focus-visible circle{stroke:var(--amber);stroke-width:6}
+.mapgrid{display:grid;gap:16px;align-items:start}
+.mapcol{position:sticky;top:env(safe-area-inset-top,0px);z-index:2;background:var(--bg);padding-block:8px 4px}
+.placelist{display:flex;flex-direction:column;gap:6px;min-width:0}
+.place{display:grid;grid-template-columns:32px 1fr;gap:10px;align-items:start;padding:10px 12px;border-radius:12px;border:1px solid var(--line);background:var(--surface);cursor:pointer}
+.place:hover{border-color:var(--brick)}
+.place:focus-visible{outline:3px solid var(--amber)}
+.place h4{margin:0;font-size:18px}
+.place .no{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;color:var(--brick-ink);background:var(--brick);font-weight:700;font-size:14px}
+.place .no.hotel{background:var(--baltic);color:var(--surface)}
+.place .acts{font-size:15px;color:var(--muted);margin-top:2px}
+.place .more{font-size:15px;margin-top:8px}
+.place.sel{border-color:var(--amber);box-shadow:inset 0 0 0 1px var(--amber)}
+.maplink{font:inherit;font-size:15px;font-weight:700;color:var(--baltic);background:none;border:0;padding:0;cursor:pointer;text-decoration:underline}
+@media (max-width:859px){.mapcol .mapwrap svg{max-height:42vh}.place{scroll-margin-top:calc(42vh + 30px)}}
+@media (min-width:860px){.mapgrid{grid-template-columns:minmax(0,1fr) minmax(0,1.1fr)}.mapcol{top:calc(env(safe-area-inset-top,0px) + 12px)}.place{scroll-margin-top:16px}}
+/* program */
+.day{display:grid;grid-template-columns:110px 1fr;gap:14px}
+.day .d{font-family:var(--f-display);font-weight:800;font-size:20px;color:var(--brick)}
+.day ul{margin:0;padding-left:18px}
+/* gave */
+.giftcard{border:2px solid var(--amber);background:var(--amber-bg);border-radius:18px;padding:26px 22px;text-align:center}
+.giftcard h3{font-size:34px;color:var(--brick);margin-bottom:10px}
+.giftcard p{max-width:56ch;margin:0 auto 12px}
+.giftcard .resto{margin:20px auto 6px;max-width:520px;background:var(--surface);border-radius:14px;padding:18px;text-align:left;border:1px solid var(--line)}
+.giftcard .resto h4{font-size:26px;text-align:center;margin-bottom:4px}
+.flagrow{display:flex;justify-content:center;gap:8px;margin-bottom:12px}
+#party{position:fixed;inset:0;z-index:50;background:rgba(10,14,24,.95);display:flex;align-items:center;justify-content:center;cursor:pointer;overflow:hidden;color:#fff}
+#party canvas{position:absolute;inset:0;width:100%;height:100%}
+#party .msg{position:relative;text-align:center;padding:24px 16px;animation:pop .9s cubic-bezier(.2,1.4,.4,1) both}
+#party .msg h2{font-size:clamp(38px,9vw,78px);color:#ffd166;text-shadow:0 2px 20px rgba(0,0,0,.5)}
+#party .msg p{font-size:20px;margin:10px 0 18px;color:#fff}
+#party .msg .btn{background:#ffd166;color:#2a1b00;border-color:#ffd166;font-size:18px;padding:12px 22px}
+#party .flag{position:absolute;top:-60px;width:44px;height:33px;animation:fall linear forwards}
+@keyframes fall{to{transform:translateY(calc(100vh + 120px)) rotate(var(--r))}}
+@keyframes pop{from{transform:scale(.4);opacity:0}to{transform:scale(1);opacity:1}}
+@media (prefers-reduced-motion:reduce){#party .flag{display:none}#party .msg{animation:none}}
+.pager{display:flex;justify-content:space-between;gap:10px;margin:14px 0 48px;flex-wrap:wrap}
+footer{color:var(--muted);font-size:14px;padding-block:20px 40px}
+@media (max-width:560px){body{font-size:16.5px}.day{grid-template-columns:1fr;gap:4px}.sec-title h2{font-size:30px}.brand h1{font-size:29px}}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="#" aria-label="Til forsiden">
+      <h1>Gdańsk 2026</h1>
+      <small id="sub">Ove &amp; Eva · sidst i november og start december</small>
+    </a>
+  </div>
+  <!-- Skyline: gavlhuse, Mariakirken, rådhustårnet og Kranen -->
+  <svg class="skyline" viewBox="0 0 1000 70" preserveAspectRatio="none" aria-hidden="true" fill="currentColor">
+    <path d="M0 70V52h30V40l12-12 12 12v12h16V36l10-14 10 14v16h18V44h8V18l6-10 6 10v26h10V52h22V38l14-14 14 14v14h14V30l9-12 9 12v22h20V8h6V0h4v8h6v44h14V40l11-11 11 11v12h16V22h46v30h12V42l10-10 10 10v10h18V34l12-14 12 14v18h22V46l8-8 8 8v6h20V16h10l4-10 4 10h10v36h14V40l13-13 13 13v12h18V30l10-12 10 12v22h20V44l9-9 9 9v8h28V30h34v-8h22v8h10v22h16V38l12-12 12 12v14h18V36l10-12 10 12v16h22V42l10-10 10 10v10h24V30l12-14 12 14v22h16V44l8-8 8 8v8h22V36l11-12 11 12v16h30V40l12-12 12 12v12h40V70z"/>
+  </svg>
+</header>
+
+<main class="wrap" id="app"></main>
+<footer class="wrap" id="foot"></footer>
+
+<script>
+/* =========================================================
+   DATA – RET HER, når du har informationen.
+   Tomme felter ("") vises som "Udfyldes snart" på siden.
+   ========================================================= */
+const UPDATED = "11. oktober 2026";
+
+// Afrejse og hjemkomst. Format: "2026-11-27". Bruges til nedtælling og antal nætter.
+const TRIP = { start:"", end:"" };
+
+const FLIGHTS = [
+  { dir:"Ud",   date:"", flight:"", airline:"", from:"", dep:"", to:"Gdańsk (GDN)", arr:"", luggage:"", note:"" },
+  { dir:"Hjem", date:"", flight:"", airline:"", from:"Gdańsk (GDN)", dep:"", to:"", arr:"", luggage:"", note:"" }
+];
+const BOOKING_REF = "";   // fx flyselskabets bookingnummer
+
+const HOTEL = {
+  name:"", address:"", phone:"", link:"",
+  checkin:"", checkout:"", ref:"",
+  lat:null, lon:null,       // fra Google Maps (højreklik på stedet). Så kommer hotellet på kortet, og afstande regnes fra hotellet.
+  note:""
+};
+
+// Fødselsdagsgaven. Udfyld når restauranten er fundet.
+const GIFT = {
+  from:"Mathias",
+  greeting:"Kære mor og far. I har begge haft fødselsdag i år, og I skal fejre det i en af Østersøens smukkeste og mest historiske byer. Gaven er en middag ude, mens I er der. Vi glæder os til at høre om det hele, når I kommer hjem.",
+  restaurant:"",   // navn
+  date:"", time:"", address:"", link:"", lat:null, lon:null,
+  text:""          // fx hvad der er bestilt, eller hvorfor netop dette sted
+};
+
+/* =========================================================
+   HISTORIE
+   ========================================================= */
+const HISTORY = [
+  {id:"h-start", yr:"ca. 980–1308", title:"Borgen ved Wisłas munding",
+   text:"Gdańsk begyndte som en træborg, som de polske Piast-fyrster byggede omkring år 980, hvor floden Wisła løber ud i Østersøen. Byen nævnes første gang i 997, da biskop Adalbert af Prag døbte indbyggerne i \"urbs Gyddanyzc\". Derfor fejrede byen sit 1000-års jubilæum i 1997.",
+   more:"I 1100- og 1200-tallet blev området styret af hertugerne af Pommerellen. Tyske købmænd, især fra Lübeck, slog sig ned ved havnen, og omkring 1260'erne fik byen Lübeck-ret – samme bylov som de andre handelsbyer ved Østersøen. Ravet fra strandene og kornet fra baglandet var allerede dengang byens rigdom.",
+   see:["kongevej"]},
+  {id:"h-orden", yr:"1308–1454", title:"Under Den Tyske Orden",
+   text:"I 1308 tog de tyske ordensriddere byen med magt, og mange af indbyggerne blev dræbt. Ordenen flyttede året efter sit hovedsæde til Marienburg (Malbork) lidt syd for Gdańsk. Under ordenen blev den nye hovedby, Rechtstadt, lagt ud med det gadenet, man stadig går i: Langgade, Langtorvet og de parallelle gader ned mod floden.",
+   more:"Danzig blev medlem af Hanseforbundet i 1361 og en af dets vigtigste byer. I denne tid begyndte man på Mariakirken (1343), byggede Kranen ved Motława (1440'erne) og Artushof, hvor købmændene mødtes. Med tiden blev borgerne trætte af ordenens skatter og indblanding.",
+   see:["mariakirken","kran","malbork"]},
+  {id:"h-guld", yr:"1454–1793", title:"Guldalderen under den polske krone",
+   text:"I 1454 gjorde byen oprør mod ordenen og stillede sig under den polske konge. Til gengæld fik Danzig vide privilegier: eget råd, egen mønt og egen udenrigshandel. Korn fra hele Polen blev sejlet ned ad Wisła og videre til Amsterdam, og Danzig blev den største og rigeste by i Polen-Litauen.",
+   more:"Det er fra denne tid, de prægtige huse og porte stammer. Hollandske og flamske arkitekter tegnede Den Gyldne Port, Det Store Tøjhus og Neptunbrønden (1633). Byen var luthersk men tolerant, med mennonitter, skotter og hollændere blandt borgerne. Astronomen Johannes Hevelius kortlagde Månen fra taget af sit bryggeri, og Daniel Gabriel Fahrenheit, ham med termometeret, blev født her i 1686. Efter svenskekrigene i 1600-tallet og en russisk belejring i 1734 begyndte nedgangen.",
+   see:["kongevej","artus","neptun","uphagen"]},
+  {id:"h-preussen", yr:"1793–1919", title:"Preussiske Danzig",
+   text:"Ved Polens anden deling i 1793 blev Danzig preussisk. Filosoffen Arthur Schopenhauer var fem år gammel, da hans familie forlod byen i protest. Napoleon gjorde den kortvarigt til fristad i 1807, men efter en lang belejring i 1813 kom den tilbage til Preussen.",
+   more:"I 1800-tallet blev Danzig en preussisk garnisons- og provinsby. Handlen gik mod Berlin i stedet for Polen, og byen sakkede bagud. Til gengæld kom skibsværfterne, som senere skulle få verdenshistorisk betydning.",
+   see:[]},
+  {id:"h-fristad", yr:"1920–1939", title:"Fristaden Danzig",
+   text:"Efter Første Verdenskrig blev Danzig hverken tysk eller polsk. Den blev en fristad under Folkeforbundet. Langt de fleste indbyggere talte tysk, men Polen fik ret til at bruge havnen, have eget postkontor i byen og et militærdepot på halvøen Westerplatte.",
+   more:"Fordi Polen ikke stolede på fristaden, byggede landet en helt ny havneby, Gdynia, få kilometer mod nord. Fra 1933 sad nazisterne på magten i Danzigs senat, og Hitlers krav om at få byen \"hjem i riget\" blev en af undskyldningerne for krigen.",
+   see:["post","westerplatte"]},
+  {id:"h-krig", yr:"1939–1945", title:"Her begyndte Anden Verdenskrig",
+   text:"Kl. 4.45 den 1. september 1939 åbnede det tyske slagskib Schleswig-Holstein ild mod Westerplatte. Omkring 200 polske soldater holdt stand i syv dage. Samme morgen forsvarede postfolkene det polske postkontor i byen, og de, der blev taget til fange, blev senere henrettet.",
+   more:"Lige øst for byen oprettede tyskerne koncentrationslejren Stutthof. I marts 1945 erobrede Den Røde Hær byen, og den historiske bykerne brændte. Omkring 90 procent af hovedbyen lå i ruiner. Den tyske befolkning flygtede eller blev fordrevet, og nye polske indbyggere kom til, mange af dem selv fordrevet fra det østlige Polen, som var blevet sovjetisk.",
+   see:["wwii","westerplatte","post"]},
+  {id:"h-genopbyg", yr:"1945–1970", title:"Byen der blev bygget op igen",
+   text:"Allerede fra slutningen af 1940'erne gik man i gang med at genopbygge hovedbyen hus for hus efter gamle tegninger, malerier og fotografier. Det meste, man ser på Langgade og Langtorvet i dag, er altså bygget efter krigen.",
+   more:"Man valgte at genskabe byen, som den så ud i guldalderen, og lod mange af de preussiske ombygninger fra 1800-tallet ude. Facaderne er historiske, men bag dem er der ofte moderne lejligheder. Kig efter de gamle stumper, der blev reddet og sat ind igen: portaler, relieffer og stenfigurer på trappeterrasserne i Mariacka-gaden.",
+   see:["mariacka","kongevej"]},
+  {id:"h-solidar", yr:"1970–1989", title:"Solidaritet",
+   text:"I december 1970 strejkede arbejderne på værfterne mod prisstigninger, og politi og militær skød mod dem. I august 1980 blev kranføreren Anna Walentynowicz fyret fra Lenin-værftet. Kollegerne strejkede, elektrikeren Lech Wałęsa sprang over muren og blev leder, og strejkekomiteen skrev 21 krav på to krydsfinerplader.",
+   more:"Den 31. august 1980 underskrev regeringen Gdańsk-aftalen, og den første frie fagforening i østblokken, Solidarność, fik snart omkring 10 millioner medlemmer. Regimet indførte undtagelsestilstand i december 1981, men bevægelsen overlevede. Wałęsa fik Nobels fredspris i 1983, og i 1989 førte rundbordssamtaler og delvist frie valg til, at Polen som det første land i østblokken fik en ikke-kommunistisk regering. De originale plader med de 21 krav kan ses i Det Europæiske Solidaritetscenter.",
+   see:["ecs"]},
+  {id:"h-nu", yr:"1989 – i dag", title:"Den nye havneby",
+   text:"Polen kom med i EU i 2004. Gdańsk har fået to store museer om sin egen historie i det 20. århundrede: Solidaritetscentret (2014) og Museet for Anden Verdenskrig (2017). Fodboldstadionet fra EM 2012 er formet som et stykke rav.",
+   more:"Byen er i dag en del af \"Trebyen\" sammen med badebyen Sopot og havnebyen Gdynia, med omkring en million indbyggere i alt.",
+   see:["julemarked","sopot"]}
+];
+
+const DANISH = [
+  "Omkring 1210–1227 var hertugerne af Pommerellen kortvarigt vasaller under den danske konge Valdemar Sejr, indtil Danmarks nederlag ved Bornhøved.",
+  "Øresundstolden i Helsingør er en af de bedste kilder til Danzigs historie: Byens skibe og korn gik gennem Sundet i tusindvis hvert år, og toldregnskaberne viser, hvor vigtig Danzig var for Østersøhandlen.",
+  "Arkitekten Anthonis van Obbergen byggede Kronborg for Frederik II og blev bagefter stadsarkitekt i Danzig, hvor han tegnede Det Store Tøjhus. Læg mærke til ligheden med Kronborgs sandstensdetaljer.",
+  "I 1577 gjorde Danzig oprør mod den polske konge Stefan Batory, og Danmark støttede byen. Batory belejrede Danzig uden at indtage den, og byen beholdt sine privilegier mod at betale en stor bod.",
+  "Freden i Oliva (Oliwa i det nordlige Gdańsk) og freden i København blev begge sluttet i 1660 og afsluttede de samme krige mod Karl X Gustav. Freden i Oliva blev underskrevet i klosteret ved katedralen.",
+  "Navnet har intet med danskere at gøre, selv om man nogle gange hører det. Det kommer formentlig fra et gammelt ord for fugtigt, sumpet land."
+];
+
+const PEOPLE = [
+  ["Johannes Hevelius (1611–1687)","Brygger, rådsherre og astronom. Lavede et af de første detaljerede kort over Månen."],
+  ["Daniel Gabriel Fahrenheit (1686–1736)","Født i Danzig. Opfandt kviksølvtermometeret og temperaturskalaen, der stadig bruges i USA."],
+  ["Arthur Schopenhauer (1788–1860)","Filosoffen blev født i Heiligegeistgasse (i dag ul. Św. Ducha) i hovedbyen."],
+  ["Günter Grass (1927–2015)","Født i bydelen Langfuhr (Wrzeszcz). Romanen Bliktrommen foregår i Danzig, blandt andet ved forsvaret af det polske postkontor. Nobelpris 1999."],
+  ["Lech Wałęsa (f. 1943)","Elektriker på Lenin-værftet, leder af Solidarność og Polens præsident 1990–1995. Lufthavnen er opkaldt efter ham."],
+  ["Donald Tusk (f. 1957)","Født i Gdańsk. Polsk premierminister og tidligere formand for Det Europæiske Råd."]
+];
+
+/* =========================================================
+   SEVÆRDIGHEDER
+   acc: ok = let tilgængeligt · warn = trapper eller en del gang · bad = meget gang og trapper
+   ========================================================= */
+const CATS = {alle:"Alle", by:"Hovedbyen", museer:"Museer", kirker:"Kirker", udflugt:"Udflugter"};
+const ACC = {ok:["b-ok","Let tilgængeligt"], warn:["b-warn","Lidt trapper eller gang"], bad:["b-bad","Meget gang og trapper"]};
+
+const SIGHTS = [
+  {id:"kongevej", cat:"by", title:"Kongevejen: Langgade og Langtorvet", rec:true, acc:"ok", time:"1–2 timer med kaffepauser",
+   text:"Den gamle indtogsvej for de polske konger går fra Højporten gennem Den Gyldne Port, ned ad Langgade (Długa) og over Langtorvet (Długi Targ) til Den Grønne Port ved floden. Ca. 700 m helt fladt, med smukke gavlhuse hele vejen og caféer at hvile i.",
+   more:"Tag gerne en taxa til Højporten og gå nedad mod floden, så slutter I ved vandet. Brostenene er ujævne, så gode sko er en fordel. Den Grønne Port blev bygget som kongebolig, men ingen konge boede der nogensinde."},
+  {id:"artus", cat:"by", title:"Artushof", acc:"ok", time:"45 min",
+   text:"Købmændenes gamle mødesal på Langtorvet, opkaldt efter kong Arthur og ridderne af det runde bord. En stor gotisk hal med skibsmodeller under hvælvingerne og en af verdens største kakkelovne, næsten 11 meter høj.",
+   more:"Hallen ligger i stueetagen. Artushof hører under Gdańsks bymuseum, ligesom Rådhuset og Uphagens Hus."},
+  {id:"neptun", cat:"by", title:"Neptunbrønden", acc:"ok", time:"5 min",
+   text:"Byens vartegn foran Artushof, færdig i 1633. Havguden Neptun skulle vise, at Danzig levede af havet. Gratis, og et godt mødested.",
+   more:""},
+  {id:"radhus", cat:"museer", title:"Rådhuset (Gdańsks bymuseum)", acc:"warn", time:"1 time",
+   text:"Det høje rådhustårn på Langgade rummer i dag bymuseet. Højdepunktet er Det Røde Rum, rådssalen med malet loft fra 1600-tallet. Der er en udstilling om byens ødelæggelse i 1945 med fotos, der viser, hvor meget der skulle bygges op.",
+   more:"Rådssalene ligger på første sal. Tårnet kan bestiges om sommeren, men det er kun via mange trapper og kan sagtens springes over."},
+  {id:"uphagen", cat:"museer", title:"Uphagens Hus", acc:"warn", time:"45 min",
+   text:"Et rigt købmandshjem fra 1770'erne på Langgade, indrettet som dengang med salon, spisestue og et hjørne med sommerfugle-tapet. Et af de få steder, hvor man kan se, hvordan husene så ud indvendig.",
+   more:"Huset strækker sig over flere etager med trapper."},
+  {id:"mariakirken", cat:"kirker", title:"Mariakirken", rec:true, acc:"ok", time:"45 min",
+   text:"En af verdens største teglstenskirker, bygget 1343–1502, med plads til 25.000 mennesker. Se det astronomiske ur fra 1460'erne og en kopi af Memlings Dommedag (originalen hænger i Nationalmuseet).",
+   more:"Kirkegulvet er fladt og let at komme rundt på. Tårnet har 409 trin og er kun for dem, der har lyst."},
+  {id:"mariacka", cat:"by", title:"Mariacka-gaden og ravbutikkerne", acc:"ok", time:"30 min",
+   text:"Den smukkeste gade i byen, fra Mariakirken ned til floden. Husene har trappeterrasser med stenrelieffer og gargoiler, og gaden er fuld af små ravsmede. Et godt sted at købe en gave med hjem.",
+   more:"Kort og flad, men brostenene er meget ujævne. Gå evt. på fliserne langs husene."},
+  {id:"kran", cat:"museer", title:"Kranen og Søfartsmuseet", acc:"warn", time:"1–2 timer",
+   text:"Kranen ved Motława er Europas største middelalderlige havnekran fra 1440'erne. Mænd gik inde i store trædehjul for at løfte lasten. I dag er den en del af Søfartsmuseet, som også har udstillinger i pakhusene og skibet Sołdek over på den anden side af floden.",
+   more:"Inde i kranen er der trapper. Udsigten fra kajen er gratis, og det er måske det bedste ved den."},
+  {id:"julemarked", cat:"by", title:"Julemarkedet på Targ Węglowy", rec:true, acc:"ok", time:"En aften",
+   text:"Gdańsks julemarked ligger på pladsen foran Det Store Tøjhus, lige inden for Den Gyldne Port, og plejer at åbne sidst i november. Boder med gløgg (grzaniec), pierogi og håndværk, karrusel og lys.",
+   more:"Datoerne for 2026 er ikke tjekket endnu. Der er flest mennesker fredag og lørdag aften. Tøjhusets facade, tegnet af Kronborgs arkitekt Anthonis van Obbergen, er flot oplyst om aftenen."},
+  {id:"nationalmuseum", cat:"museer", title:"Nationalmuseet: Memlings Dommedag", acc:"ok", time:"1–1½ time",
+   text:"I et gammelt franciskanerkloster lidt syd for hovedbyen hænger Hans Memlings store alterbillede Dommedag fra 1470'erne. Det var bestilt til en kirke i Firenze, men en Danzig-kaper, Paul Beneke, erobrede skibet i 1473, og billedet har været i byen lige siden.",
+   more:"Ca. 10 minutters gang fra Langtorvet eller en kort taxatur. Spørg ved indgangen, om der er elevator til de øvre sale."},
+  {id:"post", cat:"museer", title:"Det Polske Postkontor", acc:"ok", time:"30–45 min",
+   text:"Her forsvarede postfolkene sig mod tyske tropper den 1. september 1939. I dag er der et lille museum i bygningen, og et monument på pladsen foran.",
+   more:"Lille og overskueligt. Kendt fra Günter Grass' Bliktrommen."},
+  {id:"wwii", cat:"museer", title:"Museet for Anden Verdenskrig", rec:true, acc:"ok", time:"3 timer eller mere",
+   text:"Et af Europas største museer om krigen, åbnet 2017. Udstillingen ligger 14 meter under jorden og følger krigen fra Westerplatte til efterkrigstiden, med vægt på civilbefolkningens liv. Meget stærkt.",
+   more:"Nyt og bygget til at være tilgængeligt, med elevatorer. Udstillingen er meget stor, så sæt god tid af og hold pauser undervejs. Kan deles over to besøg. Tag en taxa derhen; den ligger ved floden ca. 1 km nord for Langtorvet."},
+  {id:"ecs", cat:"museer", title:"Det Europæiske Solidaritetscenter", rec:true, acc:"ok", time:"2 timer",
+   text:"Museet om Solidarność ligger ved Port 2 til det gamle Lenin-værft, hvor strejken begyndte i 1980. Se de originale plader med de 21 krav, Wałęsas kontor og monumentet for de dræbte værftsarbejdere fra 1970 på pladsen udenfor.",
+   more:"Moderne bygning med elevatorer og audioguide. På taget er der en have med udsigt over værftet. Taxa fra hovedbyen tager få minutter."},
+  {id:"westerplatte", cat:"udflugt", title:"Westerplatte", acc:"warn", time:"Halv dag",
+   text:"Halvøen ved havneindløbet, hvor krigen begyndte. Her er ruiner af vagthusene og et stort monument på en bakke. Et stille og tankevækkende sted.",
+   more:"Ca. 20 min i taxa. Stierne er grus, og der er trapper op til monumentet, men man kan se meget fra parkeringspladsen og den nærmeste vagtbygning. Om vinteren sejler turbådene derud normalt ikke."},
+  {id:"oliwa", cat:"udflugt", title:"Oliwa-katedralen og orgelkoncert", rec:true, acc:"ok", time:"Halv dag",
+   text:"Den gamle klosterkirke i Oliwa har et af Europas mest berømte rokoko-orgler med bevægelige engle og stjerner. Der er korte orgelkoncerter i løbet af dagen. Det var her i klostret, freden i Oliva blev sluttet i 1660.",
+   more:"Ca. 20 min i taxa eller med sporvogn fra centrum. Kirken er flad og let at komme rundt i, og bag den ligger en rolig slotspark. Tidspunkterne for koncerterne skal tjekkes på dagen."},
+  {id:"sopot", cat:"udflugt", title:"Sopot og molen", acc:"ok", time:"Halv dag",
+   text:"Badebyen mellem Gdańsk og Gdynia med Europas længste træmole, over 500 m ud i Østersøen. Om vinteren er der stille og smukt, og der er mange caféer på hovedgaden Monte Cassino.",
+   more:"Ca. 20 min med lokaltoget SKM eller taxa. Molen er helt flad."},
+  {id:"malbork", cat:"udflugt", title:"Malbork: Den Tyske Ordens borg", acc:"bad", time:"Hel dag",
+   text:"Verdens største teglstensborg og Den Tyske Ordens hovedsæde fra 1309. På UNESCOs verdensarvsliste. Hvis I vil se, hvor ordensridderne regerede fra, er det her.",
+   more:"Ca. 30–45 min med tog. Borgen er kæmpestor, med brosten, mange trapper og lange gange, og en fuld tur med audioguide tager 3 timer. Man kan nøjes med en del af den og nyde den udefra fra flodbredden."}
+];
+
+// Steder på kortet over hovedbyen (lat/lon). sights = id'er fra SIGHTS.
+const PLACES = [
+  {id:"p-hoj",  name:"Højporten og Den Gyldne Port", lat:54.3495, lon:18.6465, sights:["kongevej"]},
+  {id:"p-tojhus", name:"Targ Węglowy og Tøjhuset", lat:54.3510, lon:18.6487, sights:["julemarked"]},
+  {id:"p-uphagen", name:"Uphagens Hus", lat:54.3490, lon:18.6503, sights:["uphagen"]},
+  {id:"p-torv", name:"Langtorvet", lat:54.3487, lon:18.6532, sights:["radhus","artus","neptun"]},
+  {id:"p-maria", name:"Mariakirken", lat:54.3499, lon:18.6530, sights:["mariakirken","mariacka"]},
+  {id:"p-kran", name:"Kranen", lat:54.3509, lon:18.6566, sights:["kran"]},
+  {id:"p-national", name:"Nationalmuseet", lat:54.3458, lon:18.6513, sights:["nationalmuseum"]},
+  {id:"p-post", name:"Polske Postkontor", lat:54.3537, lon:18.6527, sights:["post"]},
+  {id:"p-wwii", name:"Museet for Anden Verdenskrig", lat:54.3561, lon:18.6600, sights:["wwii"]},
+  {id:"p-ecs", name:"Solidaritetscentret", lat:54.3606, lon:18.6490, sights:["ecs"]}
+];
+const FAR = [
+  {sight:"westerplatte", dist:"ca. 7 km · 20 min i taxa"},
+  {sight:"oliwa", dist:"ca. 9 km · 20 min i taxa"},
+  {sight:"sopot", dist:"ca. 12 km · 20 min med tog"},
+  {sight:"malbork", dist:"ca. 60 km · 30–45 min med tog"}
+];
+const NEPTUN = {lat:54.3486, lon:18.6533};
+
+const PLAN_IDEAS = [
+  {d:"Første dag", items:["Kom på plads på hotellet","Kongevejen fra Den Gyldne Port til floden, med kaffe på Langtorvet","Aften: julemarkedet og aftensmad i hovedbyen"]},
+  {d:"En museumsdag", items:["Taxa til Museet for Anden Verdenskrig om formiddagen","Frokost og hvil","Eftermiddag: Artushof eller Mariakirken"]},
+  {d:"Solidaritetsdagen", items:["Solidaritetscentret og værftsporten","Det Polske Postkontor på vejen tilbage","Mariacka-gaden og en ravbutik"]},
+  {d:"En dag ud af byen", items:["Oliwa-katedralen med orgelkoncert og en tur i parken","Videre til Sopot og molen","Eller, hvis I har lyst til en lang dag: Malbork"]}
+];
+
+const PRACTICAL = [
+  {t:"Vejret", x:"Sidst i november og start december er det typisk mellem 0 og 5 grader, ofte gråt og fugtigt, og solen går ned omkring kl. 15.30. Tag varmt tøj, handsker og sko med god sål til brostenene."},
+  {t:"Penge", x:"Polen bruger złoty (PLN). 1 złoty er omkring 1,7–1,8 kr. Man kan betale med kort næsten overalt, også små beløb. Hav lidt kontanter til julemarkedet."},
+  {t:"Taxa", x:"Taxa er billig i Polen. Bolt og Uber virker i Gdańsk, og en tur inden for byen koster typisk det samme som en kop kaffe herhjemme. Det er ofte den nemmeste måde at komme rundt mellem museerne."},
+  {t:"Fra lufthavnen", x:"Lech Wałęsa-lufthavnen ligger ca. 25 min i taxa fra hovedbyen. Der står taxaer foran ankomsthallen."},
+  {t:"Søndage", x:"De fleste butikker i Polen har lukket om søndagen. Restauranter, caféer og de fleste museer har åbent. Mange museer holder i stedet lukket om mandagen, så tjek altid åbningstiden."},
+  {t:"Drikkepenge", x:"Omkring 10 procent på restauranter er normalt, hvis man har været tilfreds."},
+  {t:"Lidt polsk", x:"Dzień dobry (djen dobre) = goddag · Dziękuję (djen-ku-je) = tak · Proszę (prosje) = værsgo/vær så venlig · Na zdrowie (na zdrovje) = skål."},
+  {t:"Smag på", x:"Pierogi (fyldte dumplings), żurek (surdejssuppe, ofte i et brød), gołąbki (kåldolmere) og Goldwasser, en krydderlikør med bladguld, som er lavet i Danzig siden 1598."},
+  {t:"Tid og telefon", x:"Samme tidszone som Danmark. Telefonen virker som hjemme (EU-roaming). Husk det blå EU-sygesikringskort."}
+];
+
+/* =========================================================
+   Hjælpere
+   ========================================================= */
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const TODO = `<span class="todo">Udfyldes snart</span>`;
+const v = x => (x===null||x===undefined||x==="") ? TODO : esc(x);
+const store = {
+  get(k,d){ try{ const x = localStorage.getItem(k); return x ? JSON.parse(x) : d; }catch(e){ return k in this.mem ? this.mem[k] : d; } },
+  set(k,x){ this.mem[k]=x; try{ localStorage.setItem(k, JSON.stringify(x)); }catch(e){} },
+  mem:{}
+};
+const MONTHS = ["januar","februar","marts","april","maj","juni","juli","august","september","oktober","november","december"];
+const DAYS = ["søndag","mandag","tirsdag","onsdag","torsdag","fredag","lørdag"];
+function parseDate(s){ if(!s) return null; const d = new Date(s+"T12:00:00"); return isNaN(d) ? null : d; }
+function fmtDate(s){ const d = parseDate(s); return d ? `${DAYS[d.getDay()]} ${d.getDate()}. ${MONTHS[d.getMonth()]}` : s; }
+function daysLeft(){ const d = parseDate(TRIP.start); if(!d) return null; return Math.max(0, Math.ceil((d - new Date())/86400000)); }
+function nights(){ const a = parseDate(TRIP.start), b = parseDate(TRIP.end); return a&&b ? Math.round((b-a)/86400000) : null; }
+function meters(a,b){ const R=6371000, r=Math.PI/180, dLat=(b.lat-a.lat)*r, dLon=(b.lon-a.lon)*r;
+  const h=Math.sin(dLat/2)**2+Math.cos(a.lat*r)*Math.cos(b.lat*r)*Math.sin(dLon/2)**2; return 2*R*Math.asin(Math.sqrt(h)); }
+const hasHotel = () => typeof HOTEL.lat==="number" && typeof HOTEL.lon==="number";
+const BASE = () => hasHotel() ? {lat:HOTEL.lat, lon:HOTEL.lon, name:"hotellet"} : {...NEPTUN, name:"Neptunbrønden"};
+function walk(p){ const m = meters(BASE(), p)*1.3; const r = m<1000 ? Math.round(m/50)*50+" m" : (Math.round(m/100)/10).toString().replace(".",",")+" km";
+  return `ca. ${r} at gå fra ${BASE().name}${m>1500?" (tag gerne en taxa)":""}`; }
+const placeOf = sid => PLACES.find(p=>p.sights.includes(sid));
+const sightOf = id => SIGHTS.find(s=>s.id===id);
+const gmaps = (q,lat,lon) => `https://www.google.com/maps/search/?api=1&query=${q?encodeURIComponent(q):lat+","+lon}`;
+
+/* Kort over hovedbyen */
+const MAP_W = 500, MAP_H = 780, LAT0 = 54.3620, LON0 = 18.6432, K = 44000;
+const proj = (lat,lon) => [ (lon-LON0)*Math.cos(54.35*Math.PI/180)*K, (LAT0-lat)*K ];
+const line = pts => pts.map((p,i)=>{ const [x,y]=proj(p[0],p[1]); return (i?"L":"M")+x.toFixed(1)+","+y.toFixed(1); }).join(" ");
+const RIVER = [[54.3440,18.6600],[54.3466,18.6582],[54.3486,18.6570],[54.3510,18.6576],[54.3532,18.6592],[54.3552,18.6614],[54.3572,18.6640],[54.3600,18.6670]];
+const ROYAL = [[54.3496,18.6455],[54.3494,18.6476],[54.3490,18.6510],[54.3488,18.6528],[54.3486,18.6557]];
+let SELECTED = "";
+
+const ICON = {
+  rejsen:'<path d="M2 16l20-6-3-2-6 1-5-6H6l3 7-5 1-2-2-1 1z"/>',
+  historie:'<path d="M4 19V6a2 2 0 0 1 2-2h12v15H6a2 2 0 0 0-2 2"/><path d="M8 8h6M8 11h6"/>',
+  sevaerdigheder:'<path d="M4 21V10l8-6 8 6v11"/><path d="M9 21v-5h6v5M12 4V1"/>',
+  kort:'<path d="M9 4L3 6v14l6-2 6 2 6-2V4l-6 2z"/><path d="M9 4v14M15 6v14"/>',
+  praktisk:'<circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16v.5"/>',
+  gave:'<rect x="3" y="9" width="18" height="12" rx="1.5"/><path d="M3 13h18M12 9v12"/><path d="M12 9c-2-4-6-4-6-1.5S10 9 12 9zM12 9c2-4 6-4 6-1.5S14 9 12 9z"/>'
+};
+const svg = (k,s=20) => `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICON[k]}</svg>`;
+const DK_FLAG = '<svg viewBox="0 0 37 28" width="44" height="33" aria-hidden="true"><rect width="37" height="28" fill="#c8102e"/><rect x="12" width="4" height="28" fill="#fff"/><rect y="12" width="37" height="4" fill="#fff"/></svg>';
+const PL_FLAG = '<svg viewBox="0 0 8 5" width="44" height="28" aria-hidden="true"><rect width="8" height="5" fill="#dc143c"/><rect width="8" height="2.5" fill="#fff"/></svg>';
+
+/* =========================================================
+   Sektioner
+   ========================================================= */
+const giftOpened = () => store.get("gdk-gave-aabnet", false);
+
+const SECTIONS = [
+  {id:"gave", title:"Fødselsdagsgave", teaser:()=>giftOpened() ? (GIFT.restaurant ? esc(GIFT.restaurant) : "En middag i Gdańsk") : "Tryk for at åbne",
+   lead:"Til Ove og Eva, der begge har haft fødselsdag i år.",
+   render(){
+     const g = GIFT;
+     const resto = g.restaurant ? `<div class="resto">
+         <h4>${esc(g.restaurant)}</h4>
+         <dl class="kv"><dt>Dato</dt><dd>${g.date?esc(fmtDate(g.date)):TODO}</dd><dt>Tidspunkt</dt><dd>${v(g.time)}</dd><dt>Adresse</dt><dd>${v(g.address)}</dd></dl>
+         ${g.text?`<p style="margin:12px 0 0">${esc(g.text)}</p>`:""}
+         <div class="meta">${g.link?`<a href="${esc(g.link)}" target="_blank" rel="noopener">Restaurantens hjemmeside</a>`:""}
+         ${g.address||g.lat?`<a href="${gmaps(g.address,g.lat,g.lon)}" target="_blank" rel="noopener">Åbn i Google Maps</a>`:""}</div></div>`
+       : `<div class="resto"><h4>Restauranten afsløres snart</h4><p style="margin:6px 0 0;text-align:center">Den bliver valgt og bestilt, og så kommer navn, dato og adresse her.</p></div>`;
+     return `<div class="giftcard">
+       <div class="flagrow">${DK_FLAG}${DK_FLAG}${DK_FLAG}</div>
+       <h3>Tillykke med fødselsdagene!</h3>
+       <p>${esc(g.greeting)}</p>
+       ${resto}
+       <p style="margin-top:16px">Kærlig hilsen ${esc(g.from)}</p>
+       <button class="btn" data-party>Se fyrværkeriet igen</button>
+     </div>`;
+   }},
+
+  {id:"rejsen", title:"Rejsen", teaser:()=>HOTEL.name ? `Fly og ${esc(HOTEL.name)}` : "Fly og hotel",
+   lead:"Fly, hotel og bookingnumre samlet ét sted.",
+   render(){
+     const f = FLIGHTS.map(x=>`<div class="card item">
+       <div class="row"><h4>${x.dir}: ${x.date?esc(fmtDate(x.date)):"dato følger"}</h4>${x.flight?`<span class="badge b-ok">Booket</span>`:""}</div>
+       <dl class="kv">
+         <dt>Fly</dt><dd>${x.flight||x.airline?esc([x.airline,x.flight].filter(Boolean).join(" ")):TODO}</dd>
+         <dt>Afgang</dt><dd>${x.from||x.dep?esc([x.from,x.dep&&"kl. "+x.dep].filter(Boolean).join(" · ")):TODO}</dd>
+         <dt>Ankomst</dt><dd>${x.to||x.arr?esc([x.to,x.arr&&"kl. "+x.arr].filter(Boolean).join(" · ")):TODO}</dd>
+         <dt>Bagage</dt><dd>${v(x.luggage)}</dd>
+       </dl>${x.note?`<p class="count">${esc(x.note)}</p>`:""}</div>`).join("");
+     const h = HOTEL;
+     return `<h3 class="sub" style="margin-top:8px">Fly</h3>
+       <div class="stack">${f}</div>
+       <div class="card"><dl class="kv" style="margin:0"><dt>Bookingnummer</dt><dd>${v(BOOKING_REF)}</dd></dl></div>
+       <h3 class="sub">Hotel</h3>
+       <div class="card item">
+         <h4>${h.name?esc(h.name):"Hotellets navn følger"}</h4>
+         <dl class="kv">
+           <dt>Adresse</dt><dd>${v(h.address)}</dd>
+           <dt>Indtjekning</dt><dd>${h.checkin?esc(fmtDate(h.checkin)):TODO}</dd>
+           <dt>Udtjekning</dt><dd>${h.checkout?esc(fmtDate(h.checkout)):TODO}</dd>
+           <dt>Telefon</dt><dd>${v(h.phone)}</dd>
+           <dt>Bookingnummer</dt><dd>${v(h.ref)}</dd>
+         </dl>
+         ${h.note?`<p>${esc(h.note)}</p>`:""}
+         <div class="meta">${h.link?`<a href="${esc(h.link)}" target="_blank" rel="noopener">Hotellets hjemmeside</a>`:""}
+           ${h.address||hasHotel()?`<a href="${gmaps(h.address,h.lat,h.lon)}" target="_blank" rel="noopener">Åbn i Google Maps</a>`:""}
+           ${hasHotel()?`<span>${esc(walk(NEPTUN).replace("ca.","Langtorvet: ca."))}</span>`:""}</div>
+       </div>
+       <p class="note" style="margin-top:16px">Gem gerne bookingbekræftelserne på telefonen også, så I har dem uden internet.</p>`;
+   }},
+
+  {id:"historie", title:"Historie", teaser:()=>`${HISTORY.length} kapitler fra år 997 til i dag`,
+   lead:"Gdańsk har været polsk, tysk, hanseatisk, preussisk og fristad. Her er byens historie kapitel for kapitel, med henvisninger til de steder, hvor I kan se den.",
+   render(){
+     return `<div class="chips">${HISTORY.map(h=>`<a class="chip" href="#${h.id}" data-jump="${h.id}">${esc(h.yr)}</a>`).join("")}</div>
+       <div class="timeline">${HISTORY.map(h=>`<article class="chap" id="${h.id}">
+         <div class="yr">${esc(h.yr)}</div><h3>${esc(h.title)}</h3>
+         <p>${esc(h.text)}</p>
+         <details><summary>Læs mere</summary><p>${esc(h.more)}</p></details>
+         ${h.see.length?`<p class="see" style="margin-top:10px">Se det i dag: ${h.see.map(id=>`<button data-sight="${id}">${esc(sightOf(id).title)}</button>`).join(" · ")}</p>`:""}
+       </article>`).join("")}</div>
+       <div class="boxes">
+         <div class="card"><h3 style="font-size:24px">Danske forbindelser</h3><ul>${DANISH.map(d=>`<li>${esc(d)}</li>`).join("")}</ul></div>
+         <div class="card"><h3 style="font-size:24px">Kendte fra byen</h3><ul>${PEOPLE.map(([n,t])=>`<li><b>${esc(n)}</b>. ${esc(t)}</li>`).join("")}</ul></div>
+       </div>
+       <div class="card"><h3 style="font-size:24px">Byens navne</h3><p style="margin:8px 0 0">Gyddanyzc (997), Danzig på tysk, Gedania på latin og Gdańsk på polsk. I gamle danske kilder står der ofte Dantzig. Byvåbnet, to hvide kors under en guldkrone på rød bund, ses overalt i byen, også på Neptunbrøndens gitter.</p></div>`;
+   }},
+
+  {id:"sevaerdigheder", title:"Seværdigheder", teaser:()=>`${SIGHTS.length} steder · de fleste inden for kort gåafstand`,
+   lead:"Det meste ligger i hovedbyen tæt på hinanden. Mærket viser, hvor let stedet er at komme rundt på, og gåafstanden er regnet fra hotellet (eller Neptunbrønden, indtil hotellet er udfyldt).",
+   filter:"alle",
+   render(){
+     const list = SIGHTS.filter(s=>this.filter==="alle"||s.cat===this.filter);
+     return `<div class="chips">${Object.entries(CATS).map(([k,l])=>`<button class="chip ${this.filter===k?"on":""}" data-filter="${k}">${l}</button>`).join("")}</div>
+     <div class="stack">${list.map(s=>{ const p = placeOf(s.id), far = FAR.find(f=>f.sight===s.id);
+       return `<div class="card item ${s.rec?"rec":""}" id="s-${s.id}" style="scroll-margin-top:16px">
+         ${s.rec?'<div class="tag-rec">Anbefalet</div>':""}
+         <div class="row"><h4>${esc(s.title)}</h4><span class="badge ${ACC[s.acc][0]}">${ACC[s.acc][1]}</span></div>
+         <p>${esc(s.text)}</p>
+         ${s.more?`<details><summary>Praktisk</summary><p>${esc(s.more)}</p></details>`:""}
+         <div class="meta"><span><b>Tid:</b> ${esc(s.time)}</span>
+           <span>${p?esc(walk(p)):far?esc(far.dist):""}</span>
+           ${p?`<button class="maplink" data-showpin="${p.id}">Se på kort</button>`:""}</div>
+       </div>`;}).join("")}</div>
+     <h3 class="sub">Idéer til dagene</h3>
+     <p class="lead" style="font-size:17px">Bare forslag. Byt rundt efter vejret og humøret, og hold gerne en rolig dag ind imellem.</p>
+     <div class="stack">${PLAN_IDEAS.map(p=>`<div class="card day"><div class="d">${esc(p.d)}</div><ul>${p.items.map(i=>`<li>${esc(i)}</li>`).join("")}</ul></div>`).join("")}</div>
+     <p class="note">Åbningstider og priser er ikke tjekket for jeres datoer. Mange museer holder lukket mandag.</p>`;
+   }},
+
+  {id:"kort", title:"Kort", teaser:()=>`${PLACES.length} steder i hovedbyen`,
+   lead:"Hovedbyen ligger på vestsiden af floden Motława. Den stiplede linje er Kongevejen. Tryk på et nummer for at se, hvad der er.",
+   render(){
+     const pts = [...PLACES];
+     if(hasHotel()) pts.push({id:"p-hotel", name:HOTEL.name||"Hotellet", lat:HOTEL.lat, lon:HOTEL.lon, sights:[], hotel:true});
+     const pins = pts.map((p,i)=>{ const [x,y]=proj(p.lat,p.lon);
+       return `<g class="pin ${p.hotel?"hotel":""} ${SELECTED===p.id?"sel":""}" data-pin="${p.id}" tabindex="0" role="button" aria-label="${esc(p.name)}">
+         <circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="16"/><text x="${x.toFixed(1)}" y="${y.toFixed(1)}">${p.hotel?"H":i+1}</text></g>`; }).join("");
+     const [sx,sy] = proj(54.3557,18.6439);
+     const [rx,ry] = proj(54.3530,18.6612);
+     return `<div class="mapgrid">
+     <div class="mapcol"><div class="mapwrap"><svg viewBox="0 0 ${MAP_W} ${MAP_H}" role="img" aria-label="Skematisk kort over Gdańsks hovedby med nummererede steder">
+       <rect class="land" width="${MAP_W}" height="${MAP_H}"/>
+       <path class="river" d="${line(RIVER)}"/>
+       <path class="street" d="${line(ROYAL)}"/>
+       <text class="lbl river-l" x="${rx+14}" y="${ry}">Motława</text>
+       <g class="ref"><circle cx="${sx}" cy="${sy}" r="5"/></g><text class="lbl" x="${sx+10}" y="${sy+5}">Hovedbanegården</text>
+       ${pins}
+     </svg></div></div>
+     <div class="placelist">${pts.map((p,i)=>{ const on = SELECTED===p.id; const ss = p.sights.map(sightOf);
+       return `<div class="place ${on?"sel":""}" id="pl-${p.id}" data-pin="${p.id}" role="button" tabindex="0" aria-expanded="${on}">
+         <span class="no ${p.hotel?"hotel":""}">${p.hotel?"H":i+1}</span>
+         <div style="min-width:0"><h4>${esc(p.name)}</h4>
+         ${ss.length?`<div class="acts">${ss.map(s=>esc(s.title)).join(" · ")}</div>`:""}
+         ${on?`<div class="more">${p.hotel?"":`<p style="margin:0 0 6px">${esc(walk(p))}</p>`}
+           ${ss.map(s=>`<button class="maplink" data-sight="${s.id}">Læs om ${esc(s.title)}</button>`).join("<br>")}
+           <p style="margin:6px 0 0"><a href="${gmaps("",p.lat,p.lon)}" target="_blank" rel="noopener">Åbn i Google Maps</a></p></div>`:""}
+         </div></div>`; }).join("")}
+     <p class="note" style="margin-top:8px">Kortet er skematisk. Uden for kortet: ${FAR.map(f=>esc(sightOf(f.sight).title.split(":")[0].split(" og ")[0])+" ("+esc(f.dist)+")").join(", ")}.</p>
+     </div></div>`;
+   }},
+
+  {id:"praktisk", title:"Praktisk", teaser:()=>"Vejr, penge, taxa og lidt polsk",
+   lead:"Godt at vide før afrejse.",
+   render(){
+     return `<div class="grid" style="margin-top:4px">${PRACTICAL.map(p=>`<div class="card item"><h4>${esc(p.t)}</h4><p>${esc(p.x)}</p></div>`).join("")}</div>`;
+   }}
+];
+
+/* =========================================================
+   Visning
+   ========================================================= */
+function home(){
+  const dl = daysLeft(), n = nights();
+  const g = SECTIONS[0];
+  return `
+  <div class="greet"><h2>God tur, Ove og Eva</h2>
+    <p>Her er alt til turen til Gdańsk: byens lange historie, de steder I skal se, jeres fly og hotel, og en lille overraskelse.</p></div>
+  <div class="hero">
+    <div class="stat"><b>${dl===null?"–":dl}</b><span>${dl===null?"dage til afgang (dato følger)":"dage til afgang"}</span></div>
+    <div class="stat"><b>${n===null?"–":n}</b><span>nætter i Gdańsk</span></div>
+    <div class="stat"><b>${SIGHTS.length}</b><span>steder at se</span></div>
+    <div class="stat"><b>1029</b><span>år siden byen blev nævnt første gang</span></div>
+  </div>
+  <div class="grid">
+    <button class="tile gift" data-go="gave"><span class="ic">${svg("gave",34)}</span>
+      <div><h3>${g.title}</h3><p>${g.teaser()}</p></div><span class="go">${giftOpened()?"Se gaven →":"Åbn gaven →"}</span></button>
+    ${SECTIONS.slice(1).map(s=>`<button class="tile" data-go="${s.id}">
+    <span class="ic">${svg(s.id)}</span><h3>${s.title}</h3><p>${s.teaser()}</p><span class="go">Åbn →</span>
+  </button>`).join("")}</div>`;
+}
+
+function section(id){
+  const i = SECTIONS.findIndex(s=>s.id===id); const s = SECTIONS[i];
+  const prev = SECTIONS[i-1], next = SECTIONS[i+1];
+  return `
+  <div class="crumbs"><button class="btn" data-go="">← Forside</button></div>
+  <div class="sec-title"><span class="ic" style="color:var(--brick)">${svg(s.id,28)}</span><h2>${s.title}</h2></div>
+  <p class="lead">${s.lead}</p>
+  ${s.render()}
+  <div class="pager">
+    ${prev?`<button class="btn" data-go="${prev.id}">← ${prev.title}</button>`:"<span></span>"}
+    ${next?`<button class="btn primary" data-go="${next.id}">${next.title} →</button>`:`<button class="btn" data-go="">Til forsiden</button>`}
+  </div>`;
+}
+
+let ROUTE = "";
+function render(){
+  const id = ROUTE;
+  $("#app").innerHTML = SECTIONS.some(s=>s.id===id) ? section(id) : home();
+  const d1 = parseDate(TRIP.start), d2 = parseDate(TRIP.end);
+  if(d1&&d2) $("#sub").textContent = `Ove & Eva · ${d1.getDate()}. ${MONTHS[d1.getMonth()]} – ${d2.getDate()}. ${MONTHS[d2.getMonth()]} ${d2.getFullYear()}`;
+  $("#foot").textContent = `Lavet af ${GIFT.from} · sidst opdateret ${UPDATED}`;
+}
+function go(id, anchor){
+  ROUTE = id; try{ history.replaceState(null,"", id?"#"+id:location.pathname); }catch(e){}
+  render();
+  if(anchor){ const el = document.getElementById(anchor); if(el){ el.scrollIntoView({block:"start"}); return; } }
+  window.scrollTo(0,0);
+  if(id==="gave" && !giftOpened()){ store.set("gdk-gave-aabnet", true); party(); }
+}
+
+/* Fyrværkeri og flag */
+function party(){
+  if(document.getElementById("party")) return;
+  const reduce = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const o = document.createElement("div"); o.id = "party"; o.setAttribute("role","dialog"); o.setAttribute("aria-label","Tillykke");
+  o.innerHTML = `<canvas></canvas><div class="msg"><div class="flagrow">${DK_FLAG}${PL_FLAG}${DK_FLAG}</div><h2>Tillykke, Ove og Eva!</h2><p>Her er jeres fødselsdagsgave</p><button class="btn" id="party-close">Se gaven</button></div>`;
+  document.body.appendChild(o);
+  const close = () => { o.remove(); stop = true; };
+  o.addEventListener("click", close);
+  document.addEventListener("keydown", function k(e){ if(e.key==="Escape"){ close(); document.removeEventListener("keydown",k); } });
+  setTimeout(()=>{ const b = document.getElementById("party-close"); if(b) b.focus(); }, 50);
+  let stop = false;
+  if(reduce) return;
+  for(let i=0;i<34;i++){
+    const f = document.createElement("div"); f.className = "flag";
+    f.innerHTML = i%4===3 ? PL_FLAG : DK_FLAG;
+    f.style.left = (Math.random()*100)+"vw";
+    f.style.animationDuration = (4+Math.random()*4)+"s";
+    f.style.animationDelay = (Math.random()*3)+"s";
+    f.style.setProperty("--r", (Math.random()*720-360)+"deg");
+    o.appendChild(f);
+  }
+  const c = o.querySelector("canvas"), x = c.getContext("2d");
+  const fit = () => { c.width = innerWidth*devicePixelRatio; c.height = innerHeight*devicePixelRatio; x.setTransform(devicePixelRatio,0,0,devicePixelRatio,0,0); };
+  fit(); addEventListener("resize", fit);
+  const COLORS = ["#ffd166","#ff4d4d","#ffffff","#ff9f1c","#c8102e","#7bdff2"];
+  const rockets = [], sparks = [];
+  let t = 0;
+  function launch(){ rockets.push({x:innerWidth*(.15+Math.random()*.7), y:innerHeight, vy:-(innerHeight/62)*(.8+Math.random()*.35), vx:(Math.random()-.5)*2, c:COLORS[Math.random()*COLORS.length|0]}); }
+  function burst(r){ const n = 70+Math.random()*40|0; for(let i=0;i<n;i++){ const a = Math.random()*Math.PI*2, s = 1.5+Math.random()*4.5;
+    sparks.push({x:r.x, y:r.y, vx:Math.cos(a)*s, vy:Math.sin(a)*s, life:60+Math.random()*40, c:Math.random()<.7?r.c:COLORS[Math.random()*COLORS.length|0]}); } }
+  (function frame(){
+    if(stop) return;
+    t++;
+    x.globalCompositeOperation = "destination-out"; x.fillStyle = "rgba(0,0,0,.22)"; x.fillRect(0,0,innerWidth,innerHeight);
+    x.globalCompositeOperation = "lighter";
+    if(t<480 && t%18===0) launch();
+    if(t%90===0 && t<480){ launch(); launch(); }
+    for(let i=rockets.length-1;i>=0;i--){ const r = rockets[i]; r.x+=r.vx; r.y+=r.vy; r.vy+=.18;
+      x.fillStyle = r.c; x.beginPath(); x.arc(r.x,r.y,2.5,0,7); x.fill();
+      if(r.vy>=-1){ burst(r); rockets.splice(i,1); } }
+    for(let i=sparks.length-1;i>=0;i--){ const s = sparks[i]; s.x+=s.vx; s.y+=s.vy; s.vy+=.06; s.vx*=.985; s.vy*=.985; s.life--;
+      x.globalAlpha = Math.max(0, Math.min(1, s.life/40)); x.fillStyle = s.c; x.beginPath(); x.arc(s.x,s.y,2,0,7); x.fill();
+      if(s.life<=0) sparks.splice(i,1); }
+    x.globalAlpha = 1;
+    if(t<720 || sparks.length) requestAnimationFrame(frame);
+  })();
+}
+
+/* events */
+document.addEventListener("click",e=>{
+  const g = e.target.closest("[data-go]");
+  if(g){ e.preventDefault(); go(g.dataset.go); return; }
+  const j = e.target.closest("[data-jump]");
+  if(j){ e.preventDefault(); const el = document.getElementById(j.dataset.jump); if(el) el.scrollIntoView({behavior:"smooth",block:"start"}); return; }
+  if(e.target.closest("[data-party]")){ party(); return; }
+  const sg = e.target.closest("[data-sight]");
+  if(sg){ SECTIONS.find(s=>s.id==="sevaerdigheder").filter = "alle"; go("sevaerdigheder", "s-"+sg.dataset.sight); return; }
+  if(e.target.closest("a")) return;
+  const pin = e.target.closest("[data-pin]");
+  if(pin){ SELECTED = SELECTED===pin.dataset.pin ? "" : pin.dataset.pin; render(); const el=document.getElementById("pl-"+SELECTED); if(el) el.scrollIntoView({behavior:"smooth",block:"nearest"}); return; }
+  const sp = e.target.closest("[data-showpin]");
+  if(sp){ SELECTED = sp.dataset.showpin; go("kort"); return; }
+  const f = e.target.closest("[data-filter]");
+  if(f){ SECTIONS.find(s=>s.id==="sevaerdigheder").filter = f.dataset.filter; render(); return; }
+});
+document.querySelector(".brand").addEventListener("click",e=>{ e.preventDefault(); go(""); });
+document.addEventListener("keydown",e=>{ const p=e.target.closest&&e.target.closest("[data-pin]"); if(p&&(e.key==="Enter"||e.key===" ")){ e.preventDefault(); p.dispatchEvent(new MouseEvent("click",{bubbles:true})); } });
+window.addEventListener("hashchange",()=>{ const h = location.hash.slice(1); if(SECTIONS.some(s=>s.id===h) || !h){ go(h); } });
+const startHash = location.hash.slice(1);
+ROUTE = SECTIONS.some(s=>s.id===startHash) ? startHash : "";
+render();
+if(ROUTE==="gave" && !giftOpened()){ store.set("gdk-gave-aabnet", true); party(); }
+</script>
+</body>
+</html>
