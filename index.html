@@ -14,7 +14,7 @@
   --bg:#f1f2ef; --surface:#ffffff; --surface-2:#e7e8e3; --ink:#1e2a30; --muted:#59646a; --line:#d9dbd4;
   --brick:#9b2d20; --brick-ink:#ffffff; --amber:#b9770e; --amber-bg:#f8ecd3; --baltic:#1f4a5c;
   --ok:#2f7a4d; --ok-bg:#e1f1e6; --warn:#8a6100; --warn-bg:#f8eccd; --bad:#a3392a; --bad-bg:#f7e0db;
-  --water:#d6e4ea; --landfill:#eceee8; --street:#c9b28a;
+  --water:#c9dde6; --landfill:#eceee8; --street:#c9b28a; --block:#dfe0d8; --road:#ffffff; --road-major:#f3dca8; --square:#e9e1cc;
   --shadow:0 1px 2px rgba(30,42,48,.06),0 6px 20px rgba(30,42,48,.06);
   --f-display:Alegreya,Georgia,"Times New Roman",serif;
   --f-body:"Alegreya Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
@@ -24,14 +24,14 @@
     --bg:#141a1d; --surface:#1b2327; --surface-2:#232d32; --ink:#eceae5; --muted:#a2acb0; --line:#2f3b41;
     --brick:#e0705c; --brick-ink:#1a0d0a; --amber:#e8b04f; --amber-bg:#3a2c12; --baltic:#7fb8cf;
     --ok:#7dd3a0; --ok-bg:#173327; --warn:#f0c35a; --warn-bg:#3a2f12; --bad:#f19a8a; --bad-bg:#3d1f1a;
-    --water:#15262e; --landfill:#222c31; --street:#6b5a3c; --shadow:none; color-scheme:dark;
+    --water:#24556d; --landfill:#1f282c; --street:#8a7347; --block:#283238; --road:#3a464c; --road-major:#5c4c2c; --square:#30342d; --shadow:none; color-scheme:dark;
   }
 }
 :root[data-theme="dark"]{
   --bg:#141a1d; --surface:#1b2327; --surface-2:#232d32; --ink:#eceae5; --muted:#a2acb0; --line:#2f3b41;
   --brick:#e0705c; --brick-ink:#1a0d0a; --amber:#e8b04f; --amber-bg:#3a2c12; --baltic:#7fb8cf;
   --ok:#7dd3a0; --ok-bg:#173327; --warn:#f0c35a; --warn-bg:#3a2f12; --bad:#f19a8a; --bad-bg:#3d1f1a;
-  --water:#15262e; --landfill:#222c31; --street:#6b5a3c; --shadow:none; color-scheme:dark;
+  --water:#24556d; --landfill:#1f282c; --street:#8a7347; --block:#283238; --road:#3a464c; --road-major:#5c4c2c; --square:#30342d; --shadow:none; color-scheme:dark;
 }
 *{box-sizing:border-box}
 html,body{margin:0}
@@ -88,6 +88,7 @@ h3.sub{font-size:24px;margin:30px 0 12px}
 .chips{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 16px}
 .chip{font:inherit;font-size:15px;font-weight:500;padding:6px 13px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer;text-decoration:none}
 .chip.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.count{color:var(--muted);font-size:15px}
 .note{font-size:15px;color:var(--muted);background:var(--surface-2);border-radius:10px;padding:11px 14px;margin:0 0 16px}
 details{margin-top:10px}summary{cursor:pointer;color:var(--baltic);font-weight:700;font-size:15px}details p{margin:8px 0 0}
 .todo{color:var(--warn);background:var(--warn-bg);border-radius:6px;padding:0 6px;font-weight:500}
@@ -106,11 +107,19 @@ dl.kv dt{color:var(--muted)} dl.kv dd{margin:0;font-weight:500;min-width:0;overf
 .boxes{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;margin-bottom:28px}
 .boxes ul{margin:8px 0 0;padding-left:18px}.boxes li{margin-bottom:8px}
 /* kort */
-.mapwrap{background:var(--water);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.mapwrap{background:var(--landfill);border:1px solid var(--line);border-radius:14px;overflow:hidden}
 .mapwrap svg{display:block;width:100%;height:auto;margin:0 auto}
 .land{fill:var(--landfill)}
-.river{fill:none;stroke:var(--water);stroke-width:26;stroke-linecap:round;stroke-linejoin:round}
-.street{fill:none;stroke:var(--street);stroke-width:7;stroke-linecap:round;stroke-dasharray:1 12}
+.river{fill:none;stroke:var(--water);stroke-width:24;stroke-linecap:round;stroke-linejoin:round}
+.river.small{stroke-width:12}
+.block{fill:var(--block)} .square{fill:var(--square)}
+.road{fill:none;stroke:var(--road);stroke-width:5;stroke-linecap:round;stroke-linejoin:round}
+.road.major{stroke:var(--road-major);stroke-width:11}
+.road.bridge{stroke:var(--road);stroke-width:6}
+.street{fill:none;stroke:var(--brick);stroke-width:5;stroke-linecap:round;stroke-dasharray:2 10;opacity:.75}
+.rlbl{fill:var(--muted);font:500 11.5px var(--f-body);letter-spacing:.02em}
+.area{fill:var(--muted);font:italic 600 15px var(--f-display);opacity:.8}
+.scale{stroke:var(--ink);stroke-width:2;fill:none} .scale-t{fill:var(--ink);font:600 12px var(--f-body)}
 .lbl{fill:var(--muted);font:italic 500 17px var(--f-display)}
 .lbl.river-l{fill:var(--baltic)}
 .ref circle{fill:var(--muted)}
@@ -133,7 +142,7 @@ dl.kv dt{color:var(--muted)} dl.kv dd{margin:0;font-weight:500;min-width:0;overf
 .place .more{font-size:15px;margin-top:8px}
 .place.sel{border-color:var(--amber);box-shadow:inset 0 0 0 1px var(--amber)}
 .maplink{font:inherit;font-size:15px;font-weight:700;color:var(--baltic);background:none;border:0;padding:0;cursor:pointer;text-decoration:underline}
-@media (max-width:859px){.mapcol .mapwrap svg{max-height:42vh}.place{scroll-margin-top:calc(42vh + 30px)}}
+@media (max-width:859px){.mapcol{position:static}.place{scroll-margin-top:16px}}
 @media (min-width:860px){.mapgrid{grid-template-columns:minmax(0,1fr) minmax(0,1.1fr)}.mapcol{top:calc(env(safe-area-inset-top,0px) + 12px)}.place{scroll-margin-top:16px}}
 /* program */
 .day{display:grid;grid-template-columns:110px 1fr;gap:14px}
@@ -186,17 +195,28 @@ footer{color:var(--muted);font-size:14px;padding-block:20px 40px}
 const UPDATED = "11. oktober 2026";
 
 // Afrejse og hjemkomst. Format: "2026-11-27". Bruges til nedtælling og antal nætter.
-const TRIP = { start:"", end:"" };
+const TRIP = { start:"2026-11-29", end:"2026-12-03" };
 
+const WIZZ_BAG = "En lille taske under sædet (40 × 30 × 20 cm) er med i prisen. Kabinekuffert og indchecket kuffert koster ekstra og skal være købt på bookingen.";
 const FLIGHTS = [
-  { dir:"Ud",   date:"", flight:"", airline:"", from:"", dep:"", to:"Gdańsk (GDN)", arr:"", luggage:"", note:"" },
-  { dir:"Hjem", date:"", flight:"", airline:"", from:"Gdańsk (GDN)", dep:"", to:"", arr:"", luggage:"", note:"" }
+  { dir:"Ud",   date:"2026-11-29", flight:"W6 1778", airline:"Wizz Air", from:"Billund (BLL)", dep:"", to:"Gdańsk (GDN)", arr:"",
+    expect:"Søndagsflyet afgår i vinterplanen ca. kl. 17.35 og lander ca. kl. 18.50. Tjek tiden på bookingen.",
+    luggage:WIZZ_BAG, note:"Flyvetid ca. 1 time og 15 minutter. Ruten flyver tirsdag, onsdag, torsdag, lørdag og søndag." },
+  { dir:"Hjem", date:"2026-12-03", flight:"W6 1777", airline:"Wizz Air", from:"Gdańsk (GDN)", dep:"", to:"Billund (BLL)", arr:"",
+    expect:"Torsdagsflyet har det seneste år afgået om formiddagen, ca. kl. 10–11. Den præcise tid står på bookingen.",
+    luggage:WIZZ_BAG, note:"Flyvetid ca. 1 time og 25 minutter." }
 ];
-const BOOKING_REF = "";   // fx flyselskabets bookingnummer
+const BOOKING_REF = "";
+const TRAVEL_TIPS = [
+  ["Check ind online","Wizz Air tager gebyr for at checke ind i lufthavnen. Check ind gratis i Wizz Air-appen eller på wizzair.com inden afrejse, og hav boardingkortet på telefonen eller printet."],
+  ["Billund Lufthavn","Kom i god tid, gerne 2 timer før. Har I brug for hjælp gennem lufthavnen, fx kørestol eller transport til flyet, kan det bestilles gratis hos Wizz Air senest 48 timer før afgang."],
+  ["Ankomst i Gdańsk","Lech Wałęsa-lufthavnen ligger ca. 25 minutter i taxa fra hovedbyen. Taxaerne holder lige uden for ankomsthallen, og Bolt og Uber kan også hentes der. Søndag aften er en taxa direkte til hotellet det nemmeste."],
+  ["Tidsforskel","Ingen. Polen har samme tid som Danmark."]
+];   // fx flyselskabets bookingnummer
 
 const HOTEL = {
   name:"", address:"", phone:"", link:"",
-  checkin:"", checkout:"", ref:"",
+  checkin:"2026-11-29", checkout:"2026-12-03", ref:"",
   lat:null, lon:null,       // fra Google Maps (højreklik på stedet). Så kommer hotellet på kortet, og afstande regnes fra hotellet.
   note:""
 };
@@ -278,6 +298,9 @@ const CATS = {alle:"Alle", by:"Hovedbyen", museer:"Museer", kirker:"Kirker", udf
 const ACC = {ok:["b-ok","Let tilgængeligt"], warn:["b-warn","Lidt trapper eller gang"], bad:["b-bad","Meget gang og trapper"]};
 
 const SIGHTS = [
+  {id:"ravmuseum", cat:"museer", title:"Ravmuseet", rec:true, acc:"warn", time:"1 time",
+   text:"Ravmuseet ligger i Fængselstårnet og Torturhuset ved Den Gyldne Port, lige for enden af julemarkedet. Her er rav med indesluttede insekter, kunstværker fra Danzigs ravdrejere og moderne smykker. Museet har åbent hele året og er det mest besøgte af byens museer.",
+   more:"Museet ligger i en middelalderbygning over flere etager. Læs mere i afsnittet om rav."},
   {id:"kongevej", cat:"by", title:"Kongevejen: Langgade og Langtorvet", rec:true, acc:"ok", time:"1–2 timer med kaffepauser",
    text:"Den gamle indtogsvej for de polske konger går fra Højporten gennem Den Gyldne Port, ned ad Langgade (Długa) og over Langtorvet (Długi Targ) til Den Grønne Port ved floden. Ca. 700 m helt fladt, med smukke gavlhuse hele vejen og caféer at hvile i.",
    more:"Tag gerne en taxa til Højporten og gå nedad mod floden, så slutter I ved vandet. Brostenene er ujævne, så gode sko er en fordel. Den Grønne Port blev bygget som kongebolig, men ingen konge boede der nogensinde."},
@@ -303,8 +326,8 @@ const SIGHTS = [
    text:"Kranen ved Motława er Europas største middelalderlige havnekran fra 1440'erne. Mænd gik inde i store trædehjul for at løfte lasten. I dag er den en del af Søfartsmuseet, som også har udstillinger i pakhusene og skibet Sołdek over på den anden side af floden.",
    more:"Inde i kranen er der trapper. Udsigten fra kajen er gratis, og det er måske det bedste ved den."},
   {id:"julemarked", cat:"by", title:"Julemarkedet på Targ Węglowy", rec:true, acc:"ok", time:"En aften",
-   text:"Gdańsks julemarked ligger på pladsen foran Det Store Tøjhus, lige inden for Den Gyldne Port, og plejer at åbne sidst i november. Boder med gløgg (grzaniec), pierogi og håndværk, karrusel og lys.",
-   more:"Datoerne for 2026 er ikke tjekket endnu. Der er flest mennesker fredag og lørdag aften. Tøjhusets facade, tegnet af Kronborgs arkitekt Anthonis van Obbergen, er flot oplyst om aftenen."},
+   text:"Gdańsks julemarked ligger på pladsen foran Det Store Tøjhus, lige inden for Den Gyldne Port, og er planlagt til at holde åbent fra 20. november til 23. december 2026. Boder med gløgg (grzaniec), pierogi og håndværk, karrusel og lys.",
+   more:"Se afsnittet Julemarked for datoer, åbningstider og hvad I skal smage. Tøjhusets facade, tegnet af Kronborgs arkitekt Anthonis van Obbergen, er flot oplyst om aftenen."},
   {id:"nationalmuseum", cat:"museer", title:"Nationalmuseet: Memlings Dommedag", acc:"ok", time:"1–1½ time",
    text:"I et gammelt franciskanerkloster lidt syd for hovedbyen hænger Hans Memlings store alterbillede Dommedag fra 1470'erne. Det var bestilt til en kirke i Firenze, men en Danzig-kaper, Paul Beneke, erobrede skibet i 1473, og billedet har været i byen lige siden.",
    more:"Ca. 10 minutters gang fra Langtorvet eller en kort taxatur. Spørg ved indgangen, om der er elevator til de øvre sale."},
@@ -331,9 +354,63 @@ const SIGHTS = [
    more:"Ca. 30–45 min med tog. Borgen er kæmpestor, med brosten, mange trapper og lange gange, og en fuld tur med audioguide tager 3 timer. Man kan nøjes med en del af den og nyde den udefra fra flodbredden."}
 ];
 
+/* =========================================================
+   JULEMARKED – datoer og tider fra arrangøren (2025-tider, 2026 er planlagt)
+   ========================================================= */
+const MARKET = {
+  dates:"Planlagt fra 20. november til 23. december 2026",
+  hours:[["Søndag–torsdag","kl. 12–20"],["Fredag–lørdag","kl. 12–21"]],
+  price:"Gratis adgang",
+  zones:[
+    ["Targ Węglowy","Den store plads mellem Den Gyldne Port og Tøjhuset. Hovedmarkedet med flest boder, juletræ og karrusel."],
+    ["Kongevejen","Lys og pynt hele vejen ned ad Langgade og Langtorvet."],
+    ["Tøjhuset (Zbrojownia)","Kunsthåndværk i Det Store Tøjhus, under tag og i varmen."],
+    ["Ulica Tkacka og Bogusławskiego","Mindre gader med boder lige ved siden af hovedpladsen."],
+    ["Forum Gdańsk","Gården ved storcentret lige vest for Højporten."]
+  ],
+  taste:[
+    ["Grzaniec","Polsk gløgg, varm rødvin med krydderier. Der findes også en version med øl."],
+    ["Oscypek","Røget fåreost fra bjergene, grillet og serveret med tyttebærsyltetøj."],
+    ["Pierniki","Honningkager, mange fra byen Toruń, som er berømt for dem."],
+    ["Pierogi og kiełbasa","Dumplings og grillpølse, godt mod kulden."],
+    ["Goldwasser","Danzigs egen krydderlikør med flager af bladguld."]
+  ],
+  tips:[
+    "Søndag den 29. november, dagen I lander, er første søndag i advent.",
+    "Eftermiddagene mandag til onsdag er de roligste. Det bliver mørkt ca. kl. 15.30, og så tændes lyset, så kl. 15.30–17.30 er et godt tidspunkt.",
+    "Fredag og lørdag aften er der meget mennesker.",
+    "Pladsen er flad og belagt med fliser. Der er ikke mange bænke, men caféer rundt om pladsen og på Langgade, hvor man kan sidde inde og varme sig.",
+    "Kort virker i de fleste boder, men hav lidt złoty i kontanter.",
+    "Ravmuseet ligger lige for enden af pladsen ved Den Gyldne Port."
+  ],
+  src:"https://www.europodroze.pl/aktualnosci/jarmark-bozonarodzeniowy-w-gdansku-godziny-otwarcia-do-kiedy"
+};
+
+/* =========================================================
+   RAV
+   ========================================================= */
+const AMBER = {
+  what:"Østersørav er størknet harpiks fra nåleskove, der voksede for omkring 40 millioner år siden. Det er så let, at det flyder i saltvand, og derfor skyller det op på strandene langs Gdańsk-bugten, især efter vinterstorme. Nogle stykker har små insekter eller plantedele fanget indeni, som har ligget der siden.",
+  history:[
+    ["Ravvejen","Allerede romerne hentede rav fra Østersøen. Handelsvejen gik fra kysten ved Gdańsk ned gennem Europa til Aquileia ved Adriaterhavet, hvor det blev forarbejdet til smykker."],
+    ["Ordenens monopol","Den Tyske Orden havde eneret på alt rav. Strandfolk skulle aflevere det, de fandt, og der stod galger ved stranden til dem, der beholdt noget selv."],
+    ["Ravdrejernes laug","I Danzig fandtes et laug af ravdrejere fra 1400-tallet. Byens håndværkere lavede rosenkranse, skrin og kunstgenstande til fyrster over hele Europa."],
+    ["Ravkammeret","Det berømte ravkammer blev lavet i begyndelsen af 1700-tallet til den preussiske konge, og ravmestre fra Danzig var med til at lave det. Det blev givet til zar Peter den Store i 1716, røvet af tyskerne under krigen og forsvandt i 1945. Ingen ved, hvor det blev af."],
+    ["Verdens ravhovedstad","I dag kalder Gdańsk sig verdens ravhovedstad. Byen har sit eget ravmuseum, og hvert forår holdes verdens største ravmesse, Amberif."]
+  ],
+  colors:"Rav findes i mange farver: honning og cognac er de almindeligste, kirsebærrød og citrongul er populære, og mælkehvidt \"kongerav\" er sjældent. Grønt rav er som regel varmebehandlet.",
+  buy:[
+    "Ægte rav er let og føles lunt, ikke koldt som glas eller plastik.",
+    "Spørg efter et certifikat. Seriøse butikker har certifikat fra et ravforbund på, at det er ægte østersørav.",
+    "Presset rav er små stykker, der er smeltet sammen. Det er ægte rav, men billigere, og det skal stå på prisskiltet.",
+    "Mariacka-gaden har de flotteste butikker, men også de højeste priser. Se gerne i et par butikker, før I køber."
+  ],
+  dk:"Rav skyller også op på den jyske vestkyst, og i Danmark har man brugt det siden stenalderen. Måske finder I et stykke på stranden i Brzeźno eller Sopot, hvis der har været storm."
+};
+
 // Steder på kortet over hovedbyen (lat/lon). sights = id'er fra SIGHTS.
 const PLACES = [
-  {id:"p-hoj",  name:"Højporten og Den Gyldne Port", lat:54.3495, lon:18.6465, sights:["kongevej"]},
+  {id:"p-hoj",  name:"Højporten, Ravmuseet og Den Gyldne Port", lat:54.3495, lon:18.6465, sights:["kongevej","ravmuseum"]},
   {id:"p-tojhus", name:"Targ Węglowy og Tøjhuset", lat:54.3510, lon:18.6487, sights:["julemarked"]},
   {id:"p-uphagen", name:"Uphagens Hus", lat:54.3490, lon:18.6503, sights:["uphagen"]},
   {id:"p-torv", name:"Langtorvet", lat:54.3487, lon:18.6532, sights:["radhus","artus","neptun"]},
@@ -403,8 +480,35 @@ const gmaps = (q,lat,lon) => `https://www.google.com/maps/search/?api=1&query=${
 const MAP_W = 500, MAP_H = 780, LAT0 = 54.3620, LON0 = 18.6432, K = 44000;
 const proj = (lat,lon) => [ (lon-LON0)*Math.cos(54.35*Math.PI/180)*K, (LAT0-lat)*K ];
 const line = pts => pts.map((p,i)=>{ const [x,y]=proj(p[0],p[1]); return (i?"L":"M")+x.toFixed(1)+","+y.toFixed(1); }).join(" ");
-const RIVER = [[54.3440,18.6600],[54.3466,18.6582],[54.3486,18.6570],[54.3510,18.6576],[54.3532,18.6592],[54.3552,18.6614],[54.3572,18.6640],[54.3600,18.6670]];
-const ROYAL = [[54.3496,18.6455],[54.3494,18.6476],[54.3490,18.6510],[54.3488,18.6528],[54.3486,18.6557]];
+const RIVER = [[54.3440,18.6606],[54.3466,18.6588],[54.3486,18.6578],[54.3510,18.6580],[54.3532,18.6596],[54.3552,18.6616],[54.3572,18.6640],[54.3600,18.6670]];
+const RIVER2 = [[54.3443,18.6630],[54.3470,18.6618],[54.3492,18.6610],[54.3512,18.6598]];   // Nye Motława øst for Pakhusøen
+// Gader, tegnet efter kort i hånden (ikke målfast). k: major = store veje, minor = gader, bridge = broer
+const ROADS = [
+  {n:"Wały Jagiellońskie", k:"major", pts:[[54.3443,18.6470],[54.3470,18.6462],[54.3497,18.6452],[54.3525,18.6455],[54.3545,18.6462]]},
+  {n:"Wały Piastowskie", k:"major", pts:[[54.3545,18.6462],[54.3570,18.6470],[54.3598,18.6480],[54.3620,18.6490]]},
+  {n:"Podwale Przedmiejskie", k:"major", pts:[[54.3470,18.6462],[54.3468,18.6500],[54.3465,18.6540],[54.3462,18.6580],[54.3459,18.6627]]},
+  {n:"Podwale Staromiejskie", k:"major", pts:[[54.3525,18.6455],[54.3524,18.6500],[54.3523,18.6540],[54.3523,18.6578]]},
+  {n:"Szeroka", k:"minor", pts:[[54.3513,18.6488],[54.3511,18.6568]]},
+  {n:"Św. Ducha", k:"minor", pts:[[54.3507,18.6488],[54.3505,18.6568]]},
+  {n:"Piwna", k:"minor", pts:[[54.3502,18.6492],[54.3501,18.6521]]},
+  {n:"Mariacka", k:"minor", pts:[[54.3500,18.6540],[54.3501,18.6568]]},
+  {n:"Chlebnicka", k:"minor", pts:[[54.3494,18.6535],[54.3493,18.6568]]},
+  {n:"Ogarna", k:"minor", pts:[[54.3484,18.6478],[54.3481,18.6562]]},
+  {n:"Tkacka", k:"minor", pts:[[54.3490,18.6501],[54.3508,18.6500]]},
+  {n:"", k:"minor", pts:[[54.3482,18.6545],[54.3513,18.6546]]},
+  {n:"Długie Pobrzeże", k:"minor", pts:[[54.3483,18.6567],[54.3500,18.6568],[54.3512,18.6569],[54.3523,18.6578]]},
+  {n:"Toruńska", k:"minor", pts:[[54.3469,18.6505],[54.3452,18.6508]]},
+  {n:"", k:"minor", pts:[[54.3524,18.6527],[54.3545,18.6528],[54.3560,18.6560],[54.3561,18.6595]]},
+  {n:"", k:"bridge", pts:[[54.3485,18.6562],[54.3484,18.6600]]}
+];
+const BLOCKS = [
+  [[54.3523,18.6460],[54.3523,18.6572],[54.3470,18.6570],[54.3470,18.6465]],   // Hovedbyen
+  [[54.3600,18.6485],[54.3600,18.6560],[54.3560,18.6610],[54.3526,18.6582],[54.3526,18.6462],[54.3546,18.6466]],   // Gamle by
+  [[54.3468,18.6470],[54.3468,18.6560],[54.3448,18.6560],[54.3448,18.6475]]    // syd for Podwale
+];
+const SQUARES = [ [[54.3515,18.6470],[54.3515,18.6488],[54.3497,18.6488],[54.3497,18.6472]] ];   // Targ Węglowy
+const poly = pts => line(pts)+"Z";
+const ROYAL = [[54.3496,18.6457],[54.3494,18.6476],[54.3490,18.6510],[54.3488,18.6528],[54.3486,18.6560]];
 let SELECTED = "";
 
 const ICON = {
@@ -413,6 +517,8 @@ const ICON = {
   sevaerdigheder:'<path d="M4 21V10l8-6 8 6v11"/><path d="M9 21v-5h6v5M12 4V1"/>',
   kort:'<path d="M9 4L3 6v14l6-2 6 2 6-2V4l-6 2z"/><path d="M9 4v14M15 6v14"/>',
   praktisk:'<circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16v.5"/>',
+  julemarked:'<path d="M12 2l5 8h-3l4 6h-4l3 5H7l3-5H6l4-6H7z"/>',
+  rav:'<path d="M12 3c4 3 7 6 7 10a7 7 0 0 1-14 0c0-4 3-7 7-10z"/><path d="M10 12l2 2 3-3"/>',
   gave:'<rect x="3" y="9" width="18" height="12" rx="1.5"/><path d="M3 13h18M12 9v12"/><path d="M12 9c-2-4-6-4-6-1.5S10 9 12 9zM12 9c2-4 6-4 6-1.5S14 9 12 9z"/>'
 };
 const svg = (k,s=20) => `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICON[k]}</svg>`;
@@ -455,12 +561,15 @@ const SECTIONS = [
          <dt>Fly</dt><dd>${x.flight||x.airline?esc([x.airline,x.flight].filter(Boolean).join(" ")):TODO}</dd>
          <dt>Afgang</dt><dd>${x.from||x.dep?esc([x.from,x.dep&&"kl. "+x.dep].filter(Boolean).join(" · ")):TODO}</dd>
          <dt>Ankomst</dt><dd>${x.to||x.arr?esc([x.to,x.arr&&"kl. "+x.arr].filter(Boolean).join(" · ")):TODO}</dd>
+         ${!x.dep&&x.expect?`<dt>Tid</dt><dd>${esc(x.expect)}</dd>`:""}
          <dt>Bagage</dt><dd>${v(x.luggage)}</dd>
        </dl>${x.note?`<p class="count">${esc(x.note)}</p>`:""}</div>`).join("");
      const h = HOTEL;
      return `<h3 class="sub" style="margin-top:8px">Fly</h3>
        <div class="stack">${f}</div>
        <div class="card"><dl class="kv" style="margin:0"><dt>Bookingnummer</dt><dd>${v(BOOKING_REF)}</dd></dl></div>
+       <h3 class="sub">Godt at vide om turen</h3>
+       <div class="boxes" style="margin-bottom:8px">${TRAVEL_TIPS.map(([t,x])=>`<div class="card item"><h4>${esc(t)}</h4><p>${esc(x)}</p></div>`).join("")}</div>
        <h3 class="sub">Hotel</h3>
        <div class="card item">
          <h4>${h.name?esc(h.name):"Hotellets navn følger"}</h4>
@@ -477,6 +586,25 @@ const SECTIONS = [
            ${hasHotel()?`<span>${esc(walk(NEPTUN).replace("ca.","Langtorvet: ca."))}</span>`:""}</div>
        </div>
        <p class="note" style="margin-top:16px">Gem gerne bookingbekræftelserne på telefonen også, så I har dem uden internet.</p>`;
+   }},
+
+  {id:"julemarked", title:"Julemarked", teaser:()=>"Julemarkedet på Targ Węglowy",
+   lead:"Gdańsks julemarked er et af de største i Polen, og det ligger midt i den gamle by, få minutters gang fra det meste. I er der i første uge af december.",
+   render(){
+     const M = MARKET;
+     return `<div class="card item rec">
+         <div class="tag-rec">Åbningstider</div>
+         <h4>${esc(M.dates)}</h4>
+         <dl class="kv">${M.hours.map(([d,t])=>`<dt>${esc(d)}</dt><dd>${esc(t)}</dd>`).join("")}<dt>Pris</dt><dd>${esc(M.price)}</dd></dl>
+         <div class="meta"><button class="maplink" data-showpin="p-tojhus">Se på kort</button><span class="sources"><a href="${M.src}" target="_blank" rel="noopener">Kilde: EuroPodróże</a></span></div>
+       </div>
+       <p class="note" style="margin-top:12px">Tiderne er fra sidste år, og datoerne for 2026 er arrangørens plan. Mens I er der, lukker markedet kl. 20 hver aften.</p>
+       <h3 class="sub">Gode råd</h3>
+       <div class="card"><ul style="margin:0;padding-left:20px">${M.tips.map(t=>`<li style="margin-bottom:6px">${esc(t)}</li>`).join("")}</ul></div>
+       <h3 class="sub">Hvor er markedet?</h3>
+       <div class="stack">${M.zones.map(([n,t])=>`<div class="card item"><h4>${esc(n)}</h4><p>${esc(t)}</p></div>`).join("")}</div>
+       <h3 class="sub">Smag på</h3>
+       <div class="boxes">${M.taste.map(([n,t])=>`<div class="card item"><h4>${esc(n)}</h4><p>${esc(t)}</p></div>`).join("")}</div>`;
    }},
 
   {id:"historie", title:"Historie", teaser:()=>`${HISTORY.length} kapitler fra år 997 til i dag`,
@@ -518,6 +646,26 @@ const SECTIONS = [
      <p class="note">Åbningstider og priser er ikke tjekket for jeres datoer. Mange museer holder lukket mandag.</p>`;
    }},
 
+  {id:"rav", title:"Rav", teaser:()=>"Østersøens guld og hvor I finder det",
+   lead:"Gdańsk kalder sig verdens ravhovedstad. Ravet har været byens rigdom i over tusind år.",
+   render(){
+     const A = AMBER;
+     return `<div class="card"><h3 style="font-size:24px">Hvad er rav?</h3><p style="margin:8px 0 0;max-width:68ch">${esc(A.what)}</p></div>
+       <h3 class="sub">Ravets historie</h3>
+       <div class="timeline">${A.history.map(([t,x])=>`<article class="chap"><h3 style="font-size:23px">${esc(t)}</h3><p>${esc(x)}</p></article>`).join("")}</div>
+       <h3 class="sub">Se rav</h3>
+       <div class="stack">
+         <div class="card item rec"><div class="tag-rec">Anbefalet</div><h4>Ravmuseet</h4><p>${esc(sightOf("ravmuseum").text)}</p>
+           <div class="meta"><button class="maplink" data-showpin="p-hoj">Se på kort</button><button class="maplink" data-sight="ravmuseum">Under seværdigheder</button></div></div>
+         <div class="card item"><h4>Mariacka-gaden</h4><p>${esc(sightOf("mariacka").text)}</p>
+           <div class="meta"><button class="maplink" data-showpin="p-maria">Se på kort</button></div></div>
+       </div>
+       <div class="card"><h3 style="font-size:24px">Farver</h3><p style="margin:8px 0 0;max-width:68ch">${esc(A.colors)}</p></div>
+       <h3 class="sub">Når I køber rav</h3>
+       <div class="card"><ul style="margin:0;padding-left:20px">${A.buy.map(t=>`<li style="margin-bottom:6px">${esc(t)}</li>`).join("")}</ul></div>
+       <p class="note" style="margin-top:16px">${esc(A.dk)}</p>`;
+   }},
+
   {id:"kort", title:"Kort", teaser:()=>`${PLACES.length} steder i hovedbyen`,
    lead:"Hovedbyen ligger på vestsiden af floden Motława. Den stiplede linje er Kongevejen. Tryk på et nummer for at se, hvad der er.",
    render(){
@@ -531,9 +679,17 @@ const SECTIONS = [
      return `<div class="mapgrid">
      <div class="mapcol"><div class="mapwrap"><svg viewBox="0 0 ${MAP_W} ${MAP_H}" role="img" aria-label="Skematisk kort over Gdańsks hovedby med nummererede steder">
        <rect class="land" width="${MAP_W}" height="${MAP_H}"/>
+       ${BLOCKS.map(b=>`<path class="block" d="${poly(b)}"/>`).join("")}
+       ${SQUARES.map(b=>`<path class="square" d="${poly(b)}"/>`).join("")}
+       <path class="river small" d="${line(RIVER2)}"/>
        <path class="river" d="${line(RIVER)}"/>
+       ${ROADS.map((r,i)=>`<path class="road ${r.k}" id="rd${i}" d="${line(r.pts)}"/>`).join("")}
        <path class="street" d="${line(ROYAL)}"/>
-       <text class="lbl river-l" x="${rx+14}" y="${ry}">Motława</text>
+       ${ROADS.map((r,i)=>r.n?`<text class="rlbl" dy="${r.k==="major"?-9:-5}"><textPath href="#rd${i}" startOffset="${r.k==="major"?"8%":"6%"}">${esc(r.n)}</textPath></text>`:"").join("")}
+       ${[["Hovedbyen",54.3474,18.6510],["Gamle by",54.3585,18.6505],["Pakhusøen",54.3472,18.6596],["Targ Węglowy",54.3519,18.6467]].map(([t,la,lo])=>{const [x,y]=proj(la,lo);return `<text class="area" x="${x}" y="${y}">${t}</text>`;}).join("")}
+       <path class="scale" d="M20,${MAP_H-24} v6 h${(200/(111320/K)).toFixed(1)} v-6"/><text class="scale-t" x="20" y="${MAP_H-30}">200 m</text>
+       <text class="scale-t" x="${MAP_W-28}" y="30" style="font-size:15px">N ↑</text>
+       <text class="lbl river-l" text-anchor="end" x="${rx-16}" y="${ry}">Motława</text>
        <g class="ref"><circle cx="${sx}" cy="${sy}" r="5"/></g><text class="lbl" x="${sx+10}" y="${sy+5}">Hovedbanegården</text>
        ${pins}
      </svg></div></div>
@@ -546,7 +702,7 @@ const SECTIONS = [
            ${ss.map(s=>`<button class="maplink" data-sight="${s.id}">Læs om ${esc(s.title)}</button>`).join("<br>")}
            <p style="margin:6px 0 0"><a href="${gmaps("",p.lat,p.lon)}" target="_blank" rel="noopener">Åbn i Google Maps</a></p></div>`:""}
          </div></div>`; }).join("")}
-     <p class="note" style="margin-top:8px">Kortet er skematisk. Uden for kortet: ${FAR.map(f=>esc(sightOf(f.sight).title.split(":")[0].split(" og ")[0])+" ("+esc(f.dist)+")").join(", ")}.</p>
+     <p class="note" style="margin-top:8px">Kortet er tegnet i hånden og ikke målfast, så brug Google Maps-linkene til at finde vej. Uden for kortet: ${FAR.map(f=>esc(sightOf(f.sight).title.split(":")[0].split(" og ")[0])+" ("+esc(f.dist)+")").join(", ")}.</p>
      </div></div>`;
    }},
 
