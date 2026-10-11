@@ -215,10 +215,11 @@ const TRAVEL_TIPS = [
 ];   // fx flyselskabets bookingnummer
 
 const HOTEL = {
-  name:"", address:"", phone:"", link:"",
-  checkin:"2026-11-29", checkout:"2026-12-03", ref:"",
-  lat:null, lon:null,       // fra Google Maps (højreklik på stedet). Så kommer hotellet på kortet, og afstande regnes fra hotellet.
-  note:""
+  name:"Grano Life Gdańsk", address:"Jaglana 4, 80-749 Gdańsk", phone:"", link:"",
+  checkin:"2026-11-29", checkinTime:"fra kl. 15", checkout:"2026-12-03", checkoutTime:"senest kl. 12", ref:"",
+  room:"Classic-dobbeltværelse, 4 nætter",
+  lat:54.34405, lon:18.65634,       // fra Google Maps (højreklik på stedet). Så kommer hotellet på kortet, og afstande regnes fra hotellet.
+  note:"Hotellet har elevator, restaurant og bar. Morgenmad ser ikke ud til at være med i prisen. Der er morgenbuffet i restauranten på hverdage kl. 6.30–10.30 og i weekenden kl. 7–11, så spørg ved indtjekning. Hotellet ligger lige syd for hovedbyen, ca. 10 minutters gang fra Langtorvet."
 };
 
 // Fødselsdagsgaven. Udfyld når restauranten er fundet.
@@ -477,11 +478,11 @@ const sightOf = id => SIGHTS.find(s=>s.id===id);
 const gmaps = (q,lat,lon) => `https://www.google.com/maps/search/?api=1&query=${q?encodeURIComponent(q):lat+","+lon}`;
 
 /* Kort over hovedbyen */
-const MAP_W = 500, MAP_H = 780, LAT0 = 54.3620, LON0 = 18.6432, K = 44000;
+const MAP_W = 500, MAP_H = 860, LAT0 = 54.3620, LON0 = 18.6432, K = 44000;
 const proj = (lat,lon) => [ (lon-LON0)*Math.cos(54.35*Math.PI/180)*K, (LAT0-lat)*K ];
 const line = pts => pts.map((p,i)=>{ const [x,y]=proj(p[0],p[1]); return (i?"L":"M")+x.toFixed(1)+","+y.toFixed(1); }).join(" ");
-const RIVER = [[54.3440,18.6606],[54.3466,18.6588],[54.3486,18.6578],[54.3510,18.6580],[54.3532,18.6596],[54.3552,18.6616],[54.3572,18.6640],[54.3600,18.6670]];
-const RIVER2 = [[54.3443,18.6630],[54.3470,18.6618],[54.3492,18.6610],[54.3512,18.6598]];   // Nye Motława øst for Pakhusøen
+const RIVER = [[54.3425,18.6618],[54.3440,18.6606],[54.3466,18.6588],[54.3486,18.6578],[54.3510,18.6580],[54.3532,18.6596],[54.3552,18.6616],[54.3572,18.6640],[54.3600,18.6670]];
+const RIVER2 = [[54.3430,18.6636],[54.3443,18.6630],[54.3470,18.6618],[54.3492,18.6610],[54.3512,18.6598]];   // Nye Motława øst for Pakhusøen
 // Gader, tegnet efter kort i hånden (ikke målfast). k: major = store veje, minor = gader, bridge = broer
 const ROADS = [
   {n:"Wały Jagiellońskie", k:"major", pts:[[54.3443,18.6470],[54.3470,18.6462],[54.3497,18.6452],[54.3525,18.6455],[54.3545,18.6462]]},
@@ -499,12 +500,13 @@ const ROADS = [
   {n:"Długie Pobrzeże", k:"minor", pts:[[54.3483,18.6567],[54.3500,18.6568],[54.3512,18.6569],[54.3523,18.6578]]},
   {n:"Toruńska", k:"minor", pts:[[54.3469,18.6505],[54.3452,18.6508]]},
   {n:"", k:"minor", pts:[[54.3524,18.6527],[54.3545,18.6528],[54.3560,18.6560],[54.3561,18.6595]]},
-  {n:"", k:"bridge", pts:[[54.3485,18.6562],[54.3484,18.6600]]}
+  {n:"", k:"bridge", pts:[[54.3485,18.6562],[54.3484,18.6600]]},
+  {n:"", k:"minor", pts:[[54.3463,18.6560],[54.3452,18.6562],[54.3441,18.6564]]}
 ];
 const BLOCKS = [
   [[54.3523,18.6460],[54.3523,18.6572],[54.3470,18.6570],[54.3470,18.6465]],   // Hovedbyen
   [[54.3600,18.6485],[54.3600,18.6560],[54.3560,18.6610],[54.3526,18.6582],[54.3526,18.6462],[54.3546,18.6466]],   // Gamle by
-  [[54.3468,18.6470],[54.3468,18.6560],[54.3448,18.6560],[54.3448,18.6475]]    // syd for Podwale
+  [[54.3468,18.6470],[54.3468,18.6560],[54.3436,18.6575],[54.3436,18.6478]]    // syd for Podwale
 ];
 const SQUARES = [ [[54.3515,18.6470],[54.3515,18.6488],[54.3497,18.6488],[54.3497,18.6472]] ];   // Targ Węglowy
 const poly = pts => line(pts)+"Z";
@@ -567,7 +569,7 @@ const SECTIONS = [
      const h = HOTEL;
      return `<h3 class="sub" style="margin-top:8px">Fly</h3>
        <div class="stack">${f}</div>
-       <div class="card"><dl class="kv" style="margin:0"><dt>Bookingnummer</dt><dd>${v(BOOKING_REF)}</dd></dl></div>
+       ${BOOKING_REF?`<div class="card"><dl class="kv" style="margin:0"><dt>Bookingnummer</dt><dd>${esc(BOOKING_REF)}</dd></dl></div>`:""}
        <h3 class="sub">Godt at vide om turen</h3>
        <div class="boxes" style="margin-bottom:8px">${TRAVEL_TIPS.map(([t,x])=>`<div class="card item"><h4>${esc(t)}</h4><p>${esc(x)}</p></div>`).join("")}</div>
        <h3 class="sub">Hotel</h3>
@@ -575,10 +577,11 @@ const SECTIONS = [
          <h4>${h.name?esc(h.name):"Hotellets navn følger"}</h4>
          <dl class="kv">
            <dt>Adresse</dt><dd>${v(h.address)}</dd>
-           <dt>Indtjekning</dt><dd>${h.checkin?esc(fmtDate(h.checkin)):TODO}</dd>
-           <dt>Udtjekning</dt><dd>${h.checkout?esc(fmtDate(h.checkout)):TODO}</dd>
-           <dt>Telefon</dt><dd>${v(h.phone)}</dd>
-           <dt>Bookingnummer</dt><dd>${v(h.ref)}</dd>
+           ${h.room?`<dt>Værelse</dt><dd>${esc(h.room)}</dd>`:""}
+           <dt>Indtjekning</dt><dd>${h.checkin?esc(fmtDate(h.checkin)+(h.checkinTime?" "+h.checkinTime:"")):TODO}</dd>
+           <dt>Udtjekning</dt><dd>${h.checkout?esc(fmtDate(h.checkout)+(h.checkoutTime?" "+h.checkoutTime:"")):TODO}</dd>
+           ${h.phone?`<dt>Telefon</dt><dd>${esc(h.phone)}</dd>`:""}
+           ${h.ref?`<dt>Bookingnummer</dt><dd>${esc(h.ref)}</dd>`:""}
          </dl>
          ${h.note?`<p>${esc(h.note)}</p>`:""}
          <div class="meta">${h.link?`<a href="${esc(h.link)}" target="_blank" rel="noopener">Hotellets hjemmeside</a>`:""}
