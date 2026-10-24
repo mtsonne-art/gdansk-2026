@@ -57,6 +57,12 @@ header.top::before{content:"";position:absolute;inset:0;pointer-events:none;opac
 @keyframes fall2{from{transform:translateY(-40px)}to{transform:translateY(640px)}}
 .photo{margin:20px auto 6px;max-width:560px;background:#fff;padding:10px 10px 6px;border-radius:6px;box-shadow:0 4px 18px rgba(0,0,0,.15);transform:rotate(-1.5deg)}
 .photo img{display:block;width:100%;height:auto;border-radius:2px}
+.restophotos{display:grid;grid-template-columns:1fr 1fr;gap:14px;max-width:560px;margin:10px auto 0}
+.restophotos .photo{margin:8px 0 4px}
+.restophotos .photo img{aspect-ratio:4/3;object-fit:cover}
+.restophotos .photo figcaption{font-size:15px}
+.giftcard .credit{font-size:12px;color:var(--muted);margin:2px 0 0;text-align:center}
+@media(max-width:520px){.restophotos{gap:10px}.restophotos .photo{padding:6px 6px 4px}.restophotos .photo figcaption{font-size:13px}}
 .photo figcaption{font:italic 500 17px var(--f-display);color:#3a3a3a;padding:6px 0 2px}
 header.top .wrap{position:relative;z-index:1;padding-block:34px 64px}
 .brand{display:inline-flex;flex-direction:column;text-decoration:none;color:inherit}
@@ -261,13 +267,20 @@ const HOTEL = {
 // Fødselsdagsgaven. Udfyld når restauranten er fundet.
 const GIFT = {
   from:"Mathias",
+  signature:"Mathias, Anne, Caroline og Sigrid",
   to:"Eva",
   openFrom:"2026-10-25",   // gaven kan først åbnes denne dag
   greeting:"Kære mor. Din gave er en middag ude, mens du og far er i Gdańsk, i en af Østersøens smukkeste og mest historiske byer. Vi glæder os til at høre om det hele, når I kommer hjem.",
   restaurant:"Treinta y Tres",
   date:"2026-12-02", time:"kl. 18.30", address:"Olivia Star, 33. etage, Aleja Grunwaldzka 472c, Gdańsk",
   link:"https://www.oliviastar.pl/restauracje/treinta-y-tres/", lat:54.4036430, lon:18.5708193,
-  text:"Bordet er bestilt til dig og far. Treinta y Tres betyder 33 på spansk, og restauranten ligger på 33. etage i skyskraberen Olivia Star med udsigt over hele byen og Gdańsk-bugten. Køkkenet er spansk med tapas, croquetas og store risretter til to, og Michelin-guiden har givet den en Bib Gourmand for god mad til fornuftige priser. Tag en taxa fra hotellet. Turen tager ca. 20 minutter, og elevatoren kører hele vejen op."
+  text:"Bordet er bestilt til dig og far. Treinta y Tres betyder 33 på spansk, og restauranten ligger på 33. etage i skyskraberen Olivia Star med udsigt over hele byen og Gdańsk-bugten. Køkkenet er spansk med tapas, croquetas og store risretter til to, og Michelin-guiden har givet den en Bib Gourmand for god mad til fornuftige priser. Tag en taxa fra hotellet. Turen tager ca. 20 minutter, og elevatoren kører hele vejen op.",
+  // Billeder fra restaurantens egen hjemmeside (vises kun, når siden er online)
+  photos:[
+    {src:"https://www.oliviastar.pl/wp-content/uploads/2026/08/1-scaled.png", caption:"Langostinos fra køkkenet"},
+    {src:"https://www.oliviastar.pl/wp-content/uploads/2024/01/Frame-50752-1-p-800.jpg", caption:"Restauranten på 33. etage"}
+  ],
+  photoCredit:"Foto: Olivia Star / Treinta y Tres"
 };
 
 /* =========================================================
@@ -594,8 +607,9 @@ const SECTIONS = [
        <h3>Tillykke med fødselsdagen, ${esc(g.to)}!</h3>
        <p>${esc(g.greeting)}</p>
        <figure class="photo"><img src="${IMG.both}" alt="Ove og Eva ved et festligt dækket bord med et dansk flag"><figcaption>Næste fest holder I i Gdańsk.</figcaption></figure>
+       ${g.photos&&g.photos.length?`<div class="restowrap"><div class="restophotos">${g.photos.map((ph,i)=>`<figure class="photo" style="transform:rotate(${i%2?1.5:-1.5}deg)"><img src="${esc(ph.src)}" alt="${esc(ph.caption)}" loading="lazy" referrerpolicy="no-referrer" onerror="const w=this.closest('.restowrap');this.closest('figure').remove();if(!w.querySelector('figure'))w.remove()"><figcaption>${esc(ph.caption)}</figcaption></figure>`).join("")}</div>${g.photoCredit?`<p class="credit">${esc(g.photoCredit)}</p>`:""}</div>`:""}
        ${resto}
-       <p style="margin-top:16px">Kærlig hilsen ${esc(g.from)}</p>
+       <p style="margin-top:16px">Kærlig hilsen ${esc(g.signature||g.from)}</p>
        <button class="btn" data-party>Se fyrværkeriet igen</button>
      </div>`;
    }},
